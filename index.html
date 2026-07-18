@@ -114,10 +114,9 @@
   /* No hover on touch, and reduced-motion users should not have to chase it. */
   @media (hover:none) { .proj .cap { opacity:1; transform:none; } .proj .lot, .proj img, .proj video { filter:none; } }
   @media (prefers-reduced-motion:reduce) { .proj .cap { opacity:1; transform:none; } .proj img, .proj video { transition:none; } }
-  .proj.wide { column-span:all; }
-  .proj.tall .lot { aspect-ratio:9/16; }
-  .proj.sq .lot { aspect-ratio:1/1; }
-  .proj.port .lot { aspect-ratio:4/5; }
+  .proj.tall .lot, .proj.tall img { aspect-ratio:9/16; object-fit:cover; }
+  .proj.sq .lot, .proj.sq img { aspect-ratio:1/1; object-fit:cover; }
+  .proj.port .lot, .proj.port img { aspect-ratio:4/5; object-fit:cover; }
   @media (max-width:640px){ .col-right { column-count:1; } }
 </style>
 </head>
@@ -218,7 +217,7 @@
 
     <!-- RIGHT gallery -->
     <div class="col-right">
-      <a class="proj wide" href="synchronise.html">
+      <a class="proj" href="synchronise.html">
         <img src="proj-synchronise.png" alt="Synchronise AI" />
         <span class="arw">&#8599;</span>
         <span class="cap"><span class="n">Synchronise AI</span><span class="c">Case study &middot; AI Product</span></span>
@@ -243,7 +242,7 @@
         <span class="arw">&#8599;</span>
         <span class="cap"><span class="n">Sherlocked.ai</span><span class="c">Fintech &middot; Co-founder</span></span>
       </a>
-      <a class="proj tall" href="https://gauth.framer.ai/drimtel" target="_blank" rel="noopener">
+      <a class="proj" href="https://gauth.framer.ai/drimtel" target="_blank" rel="noopener">
         <video src="proj-drimtel.mp4" autoplay muted loop playsinline poster="proj-drimtel.png"></video>
         <span class="arw">&#8599;</span>
         <span class="cap"><span class="n">DrimTel</span><span class="c">Telecom &middot; UX</span></span>
