@@ -96,15 +96,18 @@
   .col-right { display:grid; grid-template-columns:1fr 1fr; gap:16px; align-items:start; padding-top:6px; }
   .col-right .col { display:flex; flex-direction:column; gap:16px; min-width:0; }
   .col-right .col > * { display:block; }
-  .proj { position:relative; border-radius:22px; overflow:hidden; background:var(--panel); border:1px solid var(--line); }
+  .proj { position:relative; border-radius:16px; overflow:hidden; background:var(--panel); border:1px solid var(--line); aspect-ratio:4/3; }
+  .proj.sq { aspect-ratio:1/1; }
+  .proj.tall { aspect-ratio:9/16; }
+  .proj.port { aspect-ratio:4/5; }
   .proj img, .proj video, .proj .lot { border-radius:inherit; }
-  .proj img, .proj video { width:100%; height:auto; display:block; transition:transform .5s cubic-bezier(.2,.7,.2,1); }
+  .proj .lot { background:#efece4; }
+  .proj img, .proj video, .proj .lot { width:100%; height:100%; object-fit:cover; object-position:top center; display:block; }
   .proj .lot, .proj img, .proj video { filter:grayscale(1) contrast(1.03); transition:filter .45s ease, transform .6s cubic-bezier(.2,.8,.2,1); }
   .proj:hover .lot, .proj:hover img, .proj:hover video,
   .proj:focus-visible .lot, .proj:focus-visible img, .proj:focus-visible video { filter:grayscale(0) contrast(1); }
   .proj:hover img, .proj:hover video,
   .proj:focus-visible img, .proj:focus-visible video { transform:scale(1.03); }
-  .proj .lot { width:100%; aspect-ratio:4/3; background:#efece4; }
   .proj .lot svg { display:block; }
   .proj .cap { opacity:0; transform:translateY(8px); transition:opacity .3s ease, transform .35s cubic-bezier(.2,.8,.2,1); position:absolute; left:0; right:0; bottom:0; display:flex; align-items:center; justify-content:space-between; padding:16px 18px; background:linear-gradient(180deg,transparent,rgba(6,6,5,.82)); }
   .proj .cap .n { font-weight:700; font-size:17px; letter-spacing:-0.01em; text-shadow:0 1px 6px rgba(0,0,0,.5); }
@@ -115,9 +118,6 @@
   /* No hover on touch, and reduced-motion users should not have to chase it. */
   @media (hover:none) { .proj .cap { opacity:1; transform:none; } .proj .lot, .proj img, .proj video { filter:none; } }
   @media (prefers-reduced-motion:reduce) { .proj .cap { opacity:1; transform:none; } .proj img, .proj video { transition:none; } }
-  .proj.tall .lot, .proj.tall img { aspect-ratio:9/16; object-fit:cover; }
-  .proj.sq .lot, .proj.sq img { aspect-ratio:1/1; object-fit:cover; }
-  .proj.port .lot, .proj.port img { aspect-ratio:4/5; object-fit:cover; }
   @media (max-width:640px){ .col-right { grid-template-columns:1fr; } }
 </style>
 </head>
