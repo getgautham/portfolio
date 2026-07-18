@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Synchronise AI — Gautham Srinivas</title>
+<meta name="description" content="Case study: designing Synchronise AI, an approval-first AI employee for small businesses, end to end." />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="wrap nav-in">
+      <a class="brand" href="index.html"><span class="dot"></span>Gautham Srinivas</a>
+      <div class="links">
+        <a href="index.html">Work</a>
+        <a href="about.html">About</a>
+        <a href="mailto:gautham@synchronise.ai">Email</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="wrap">
+
+    <header class="cs-hero">
+      <span class="eyebrow">Case study &middot; AI Product &middot; Founder</span>
+      <h1>Synchronise AI</h1>
+      <p class="lead">An AI employee for small businesses. It watches the tools a business already runs, drafts the work, and stages it for approval. The owner approves; the server sends. No agent can send, post, or spend on its own.</p>
+      <div class="cs-facts">
+        <div class="f"><div class="k">Role</div><div class="v">Founder &amp; product designer</div></div>
+        <div class="f"><div class="k">Timeline</div><div class="v">2026 &ndash; present</div></div>
+        <div class="f"><div class="k">Scope</div><div class="v">Research, design system, product, code</div></div>
+        <div class="f"><div class="k">Stack</div><div class="v">Next.js &middot; Supabase</div></div>
+      </div>
+    </header>
+
+    <section class="cs-body">
+
+      <div class="cs-block">
+        <div class="lbl">The problem</div>
+        <div class="content">
+          <h3>Small businesses want the work done, not another dashboard.</h3>
+          <p>Owners of small businesses are drowning in tools: email, payments, accounting, ads, bookings. AI can do a lot of that work, but the moment software can act on its own, trust collapses. Nobody wants an agent quietly sending an email to a customer or spending money.</p>
+          <p>The design challenge: make AI feel like a capable employee you'd actually hand work to, where the human stays in control by default, and control never feels like friction.</p>
+        </div>
+      </div>
+
+      <div class="cs-block">
+        <div class="lbl">The pattern</div>
+        <div class="content">
+          <h3>Read, edit, approve. The agent drafts; the person decides.</h3>
+          <p>The core interaction is a work-queue card. The agent does the work and shows it fully drafted, with its source and a risk read. The person stays the editor: read it, tweak it, approve it. Only approval triggers the server to act.</p>
+          <p>Human-in-the-loop isn't a setting buried in preferences here. It's the shape of the whole product, and the design is what makes that shape feel like a superpower instead of a chore. Try it:</p>
+          <div class="duo" style="margin-top:1.4rem;">
+            <div class="panel qcard" id="qcard">
+              <div class="qhead">
+                <span class="qchip"><span class="pulse"></span>Ready to approve</span>
+                <span class="qsrc">Gmail &middot; Accounts</span>
+              </div>
+              <h4>Reply to Wembley Cafe: overdue invoice</h4>
+              <div class="qbody">
+                <span class="qlabel">Drafted reply</span>
+                Hi Sarah, a quick note that invoice #2231 ($480) is now 12 days past due. I have attached it again here. Happy to split it across two weeks if that helps.
+              </div>
+              <div class="qmeta">
+                <div>Risk<span>Low</span></div>
+                <div>Source<span>Verified thread</span></div>
+                <div>Drafted<span>Just now</span></div>
+              </div>
+              <div class="qactions">
+                <button class="qbtn" type="button">Read</button>
+                <button class="qbtn" type="button">Edit</button>
+                <button class="qbtn primary" type="button" id="approveBtn">Approve &amp; send</button>
+              </div>
+              <div class="qexec"><span class="spin"></span>Approved &middot; server is sending</div>
+            </div>
+
+            <div class="panel demo" id="demo">
+              <span class="dlabel">Live &middot; the accent is a slot</span>
+              <h4>One interface, every brand.</h4>
+              <p class="dp">Pick a brand color. The card re-themes, and the system luminance-guards it so the label stays legible on any hue.</p>
+              <div class="swatches" id="swatches"></div>
+              <div class="readout">
+                <div>input <b id="ro-in">#C73362</b></div>
+                <div>rendered <span class="g" id="ro-out">#C73362</span></div>
+                <div id="ro-note">within contrast range</div>
+              </div>
+              <div class="mini">
+                <div class="mini-card">
+                  <span class="mchip">Ready to approve</span>
+                  <h5>Post this week's promo to Instagram</h5>
+                  <p>Caption and image drafted from your last three best performers.</p>
+                  <button class="mbtn" type="button">Approve &amp; publish</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cs-block">
+        <div class="lbl">Brand as a variable</div>
+        <div class="content">
+          <h3>The accent is never hardcoded.</h3>
+          <p>Every workspace should feel unmistakably like the business using it, without a designer touching each one. So the interaction color is a <strong>slot</strong>, not a constant: derived per customer from their own brand color and luminance-guarded, so it stays legible on any hue while the interface stays coherent.</p>
+          <p>This is the closest thing I've built to brands managing their identity inside software, which is exactly why the demo above is here. Change the color; the product stays itself, and stays theirs.</p>
+        </div>
+      </div>
+
+      <div class="cs-block">
+        <div class="lbl">The design system</div>
+        <div class="content">
+          <h3>One system, not twelve.</h3>
+          <p>The app had drifted until every tab read like a different product: roughly twelve one-off button classes, two monospaces, hand-typed padding, a hardcoded accent fighting the per-workspace brand. I authored the system that pulled it back together.</p>
+          <ul>
+            <li>One button system, one type scale, one accent, replacing about twelve bespoke classes.</li>
+            <li>Depth built from surface steps and hairlines, not drop shadows.</li>
+            <li>A warm, light-first surface with the operator voice carried by a single monospace.</li>
+            <li>Exactly one of everything. Consistency as a design decision, not a cleanup task.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="cs-block">
+        <div class="lbl">Research</div>
+        <div class="content">
+          <h3>Over 100 cold calls, turned into design decisions.</h3>
+          <p>I ran more than 100 cold calls to small-business owners, booked demos, and turned them into user interviews. The finding wasn't abstract: owners want the work done, but they will not let software act unwatched.</p>
+          <p>That's exactly where the <strong>risk tiers and the read / edit / approve flow came from</strong>. I did the outreach, the interviews, and the design decisions myself, so nothing got lost in translation.</p>
+        </div>
+      </div>
+
+      <div class="cs-block">
+        <div class="lbl">Outcome</div>
+        <div class="content">
+          <div class="metricrow">
+            <div class="metric"><div class="v">100+</div><div class="k">Cold calls, demos &amp; interviews</div></div>
+            <div class="metric"><div class="v">12&rarr;1</div><div class="k">Button classes to one system</div></div>
+            <div class="metric"><div class="v">Live</div><div class="k">Shipped and dogfooded end to end</div></div>
+          </div>
+          <p style="margin-top:1.4rem;">Every surface is designed, built, and dogfooded live before it widens. Design here means shipping in the codebase alongside engineering, not handing off a mockup.</p>
+        </div>
+      </div>
+
+    </section>
+
+    <a class="nextlink linkrow" href="about.html">
+      <div>
+        <div class="k">Next</div>
+        <div class="t">About Gautham &rarr;</div>
+      </div>
+      <span class="mono">More &#8599;</span>
+    </a>
+
+  </main>
+
+  <footer class="foot">
+    <div class="wrap foot-in">
+      <div class="cta-line">
+        <h3>Want the deeper walkthrough?</h3>
+        <p>Happy to talk through the research, the system, and the decisions behind Synchronise.</p>
+        <div class="btnrow">
+          <a class="btn btn-solid" href="mailto:gautham@synchronise.ai">Get in touch</a>
+          <a class="btn" href="index.html">Back to work</a>
+        </div>
+      </div>
+      <div class="cols">
+        <span class="copy">&copy; 2026 Gautham Srinivas</span>
+        <span class="links">
+          <a href="index.html">Work</a>
+          <a href="about.html">About</a>
+          <a href="https://www.gautham.live" target="_blank" rel="noopener">gautham.live</a>
+          <a href="mailto:gautham@synchronise.ai">Email</a>
+        </span>
+        <span class="status"><span class="dot"></span>Available for work</span>
+      </div>
+    </div>
+  </footer>
+
+<script>
+  (function () {
+    var card = document.getElementById('qcard'), btn = document.getElementById('approveBtn');
+    if (btn && card) btn.addEventListener('click', function () { card.classList.add('done'); });
+  })();
+  (function () {
+    var brands = [
+      { n: 'Crimson', h: '#C73362' }, { n: 'Cobalt', h: '#1F4BE0' }, { n: 'Amber', h: '#F2B705' },
+      { n: 'Violet', h: '#7A3FF0' }, { n: 'Pine', h: '#0C6B5B' }, { n: 'Coral', h: '#FF5A4D' }
+    ];
+    var demo = document.getElementById('demo'), host = document.getElementById('swatches');
+    var roIn = document.getElementById('ro-in'), roOut = document.getElementById('ro-out'), roNote = document.getElementById('ro-note');
+    if (!demo || !host) return;
+    function toRgb(h){ h=h.replace('#',''); return {r:parseInt(h.slice(0,2),16),g:parseInt(h.slice(2,4),16),b:parseInt(h.slice(4,6),16)}; }
+    function toHex(r,g,b){ function c(x){x=Math.round(Math.max(0,Math.min(255,x)));return('0'+x.toString(16)).slice(-2);} return '#'+c(r)+c(g)+c(b); }
+    function lum(o){ function ch(v){v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4);} return 0.2126*ch(o.r)+0.7152*ch(o.g)+0.0722*ch(o.b); }
+    function guard(hex){ var o=toRgb(hex), a={r:o.r,g:o.g,b:o.b}, did=false, i=0; while(lum(a)>0.42&&i<24){a={r:a.r*0.86,g:a.g*0.86,b:a.b*0.86};did=true;i++;} return {hex:toHex(a.r,a.g,a.b),on:lum(a)>0.5?'#16150F':'#FFFFFF',guarded:did}; }
+    function apply(b, el){
+      var g=guard(b.h);
+      demo.style.setProperty('--brand', g.hex); demo.style.setProperty('--brand-on', g.on);
+      roIn.textContent=b.h.toUpperCase(); roOut.textContent=g.hex.toUpperCase();
+      roNote.textContent=g.guarded?'darkened for legibility (guarded)':'within contrast range';
+      Array.prototype.forEach.call(host.children,function(c){ c.setAttribute('aria-pressed', c===el?'true':'false'); });
+    }
+    brands.forEach(function(b,i){
+      var s=document.createElement('button'); s.className='swatch'; s.type='button'; s.style.background=b.h;
+      s.setAttribute('aria-label', b.n+' '+b.h); s.setAttribute('aria-pressed', i===0?'true':'false');
+      s.addEventListener('click', function(){ apply(b, s); }); host.appendChild(s);
+    });
+    apply(brands[0], host.children[0]);
+  })();
+</script>
+</body>
+</html>
