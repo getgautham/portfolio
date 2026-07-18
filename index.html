@@ -93,8 +93,9 @@
   .foot { margin-top:28px; font-family:var(--mono); font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:0.05em; }
 
   /* RIGHT bento gallery (masonry) */
-  .col-right { column-count:2; column-gap:16px; padding-top:6px; }
-  .col-right > * { break-inside:avoid; -webkit-column-break-inside:avoid; margin:0 0 16px; display:block; }
+  .col-right { display:grid; grid-template-columns:1fr 1fr; gap:16px; align-items:start; padding-top:6px; }
+  .col-right .col { display:flex; flex-direction:column; gap:16px; min-width:0; }
+  .col-right .col > * { display:block; }
   .proj { position:relative; border-radius:22px; overflow:hidden; background:var(--panel); border:1px solid var(--line); }
   .proj img, .proj video, .proj .lot { border-radius:inherit; }
   .proj img, .proj video { width:100%; height:auto; display:block; transition:transform .5s cubic-bezier(.2,.7,.2,1); }
@@ -117,7 +118,7 @@
   .proj.tall .lot, .proj.tall img { aspect-ratio:9/16; object-fit:cover; }
   .proj.sq .lot, .proj.sq img { aspect-ratio:1/1; object-fit:cover; }
   .proj.port .lot, .proj.port img { aspect-ratio:4/5; object-fit:cover; }
-  @media (max-width:640px){ .col-right { column-count:1; } }
+  @media (max-width:640px){ .col-right { grid-template-columns:1fr; } }
 </style>
 </head>
 <body>
@@ -217,30 +218,38 @@
 
     <!-- RIGHT gallery -->
     <div class="col-right">
+      <div class="col">
       <a class="proj" href="synchronise.html">
         <img src="proj-synchronise.png" alt="Synchronise AI" />
         <span class="arw">&#8599;</span>
         <span class="cap"><span class="n">Synchronise AI</span><span class="c">Case study &middot; AI Product</span></span>
-      </a>
-      <a class="proj" href="https://www.resonate.cx" target="_blank" rel="noopener">
-        <img src="proj-resonate.png" alt="Resonate CX" />
-        <span class="arw">&#8599;</span>
-        <span class="cap"><span class="n">Resonate CX</span><span class="c">Product Designer &middot; Robyn AI, Frontline Queues</span></span>
       </a>
       <a class="proj sq" href="https://gauth.framer.ai/cuplink" target="_blank" rel="noopener">
         <div class="lot" data-src="anim-cuplink.json"></div>
         <span class="arw">&#8599;</span>
         <span class="cap"><span class="n">CupLink</span><span class="c">AI + Hardware &middot; Red Bull Top 50</span></span>
       </a>
-      <a class="proj tall" href="https://gauth.framer.ai/heatscape" target="_blank" rel="noopener">
-        <div class="lot" data-src="anim-heatscape.json"></div>
-        <span class="arw">&#8599;</span>
-        <span class="cap"><span class="n">Heatscape</span><span class="c">AI + Hardware</span></span>
-      </a>
       <a class="proj" href="https://gauth.framer.ai/sherlocked" target="_blank" rel="noopener">
         <img src="proj-sherlocked.png" alt="Sherlocked.ai" />
         <span class="arw">&#8599;</span>
         <span class="cap"><span class="n">Sherlocked.ai</span><span class="c">Fintech &middot; Co-founder</span></span>
+      </a>
+      <a class="proj tall" href="https://gauth.framer.ai" target="_blank" rel="noopener">
+        <img src="proj-foodpile.png" alt="Foodpile" />
+        <span class="arw">&#8599;</span>
+        <span class="cap"><span class="n">Foodpile</span><span class="c">AI meal planner &middot; iOS</span></span>
+      </a>
+      </div>
+      <div class="col">
+      <a class="proj" href="https://www.resonate.cx" target="_blank" rel="noopener">
+        <img src="proj-resonate.png" alt="Resonate CX" />
+        <span class="arw">&#8599;</span>
+        <span class="cap"><span class="n">Resonate CX</span><span class="c">Product Designer &middot; Robyn AI, Frontline Queues</span></span>
+      </a>
+      <a class="proj tall" href="https://gauth.framer.ai/heatscape" target="_blank" rel="noopener">
+        <div class="lot" data-src="anim-heatscape.json"></div>
+        <span class="arw">&#8599;</span>
+        <span class="cap"><span class="n">Heatscape</span><span class="c">AI + Hardware</span></span>
       </a>
       <a class="proj" href="https://gauth.framer.ai/drimtel" target="_blank" rel="noopener">
         <video src="proj-drimtel.mp4" autoplay muted loop playsinline poster="proj-drimtel.png"></video>
@@ -250,6 +259,7 @@
       <a class="proj port" href="https://gauth.framer.ai" target="_blank" rel="noopener" style="display:grid;place-items:center;min-height:160px;">
         <span style="font-family:var(--mono);font-size:13px;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink-2)">Full archive &#8599;</span>
       </a>
+      </div>
     </div>
 
   </div>
