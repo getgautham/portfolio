@@ -4,112 +4,253 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Gautham Srinivas — Product Designer</title>
-<meta name="description" content="Gautham Srinivas is a product designer working at the intersection of AI, brand, and interaction. Currently building Synchronise AI." />
-<link rel="stylesheet" href="styles.css" />
+<meta name="description" content="Gautham Srinivas, product designer. I design AI products end to end, from research and design systems to shipped interfaces. Currently building Synchronise AI." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg:#0A0A09; --panel:#101010; --ink:#F3F1EA; --ink-2:#B9B7AF; --muted:#7E7C74;
+    --line:rgba(255,255,255,0.09); --line-2:rgba(255,255,255,0.16); --accent:#4C9E63;
+    --sans:"Inter",system-ui,-apple-system,sans-serif; --mono:"DM Mono",ui-monospace,monospace;
+  }
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); -webkit-font-smoothing:antialiased; }
+  a { color:inherit; text-decoration:none; }
+  img { display:block; max-width:100%; }
+  .mono { font-family:var(--mono); text-transform:uppercase; letter-spacing:0.08em; }
+
+  .shell { display:grid; grid-template-columns:minmax(340px,0.9fr) 1.6fr; gap:clamp(24px,3vw,56px); max-width:1560px; margin:0 auto; padding:clamp(20px,3vw,40px); }
+  @media (max-width:900px){ .shell{ grid-template-columns:1fr; } }
+
+  /* LEFT sticky content column */
+  .col-left { position:sticky; top:0; align-self:start; height:100vh; overflow-y:auto; padding-right:6px; padding-bottom:30px; scrollbar-width:thin; }
+  .col-left::-webkit-scrollbar{ width:6px; } .col-left::-webkit-scrollbar-thumb{ background:var(--line-2); border-radius:3px; }
+  @media (max-width:900px){ .col-left{ position:static; height:auto; overflow:visible; } }
+
+  .idrow { display:flex; align-items:center; gap:13px; padding-top:6px; }
+  .idrow img { width:52px; height:52px; border-radius:999px; object-fit:cover; object-position:center 20%; }
+  .idrow .nm { font-weight:700; font-size:19px; letter-spacing:-0.01em; }
+  .idrow .role { font-size:13px; color:var(--muted); margin-top:2px; }
+
+  .tagline { margin-top:26px; font-size:clamp(1.15rem,1.5vw,1.35rem); line-height:1.42; letter-spacing:-0.01em; font-weight:500; }
+  .tagline .dim { color:var(--muted); }
+  .avail { display:inline-flex; align-items:center; gap:9px; margin-top:22px; font-size:14px; color:var(--ink-2); }
+  .avail .d { width:9px; height:9px; border-radius:999px; background:var(--accent); box-shadow:0 0 0 4px rgba(76,158,99,.18); }
+  .getbtn { display:inline-block; margin-top:18px; background:var(--ink); color:#0A0A09; font-weight:600; font-size:14px; padding:12px 22px; border-radius:999px; transition:transform .16s; }
+  .getbtn:hover { transform:translateY(-2px); }
+  .logos { display:flex; align-items:center; gap:10px; margin-top:26px; flex-wrap:wrap; }
+  .logos .chip { background:#fff; border-radius:9px; height:38px; padding:0 12px; display:flex; align-items:center; }
+  .logos .chip img { height:20px; width:auto; display:block; }
+  .logos .chip.txt { font-family:var(--mono); font-size:11px; font-weight:500; letter-spacing:0.05em; text-transform:uppercase; color:#14140F; }
+
+  .rule { border:none; border-top:1px solid var(--line); margin:30px 0; }
+  .recog { display:flex; flex-wrap:wrap; gap:10px 18px; }
+  .recog span { font-family:var(--mono); font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:var(--muted); }
+  .recog span b { color:var(--ink-2); font-weight:400; }
+
+  h2.sec { font-size:20px; font-weight:700; letter-spacing:-0.01em; margin:0 0 16px; }
+  .about p { color:var(--ink-2); font-size:14.5px; line-height:1.6; margin:0 0 18px; max-width:46ch; }
+  .stats { display:flex; flex-direction:column; gap:9px; }
+  .stats .s { display:flex; align-items:baseline; gap:12px; font-size:14px; }
+  .stats .s b { font-family:var(--mono); font-weight:500; color:var(--ink); min-width:52px; }
+  .stats .s span { color:var(--muted); }
+  .stats .s span::before { content:"·"; margin-right:11px; color:var(--muted); }
+
+  .wid { display:flex; flex-direction:column; gap:20px; }
+  .wid .grp .gh { font-weight:600; font-size:15px; margin-bottom:8px; }
+  .wid .grp .gh small { font-family:var(--mono); font-size:11px; color:var(--muted); margin-left:8px; text-transform:uppercase; letter-spacing:0.06em; }
+  .wid .grp ul { list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:6px 8px; }
+  .wid .grp li { font-size:13px; color:var(--ink-2); }
+  .wid .grp li::after { content:"·"; color:var(--muted); margin-left:8px; }
+  .wid .grp li:last-child::after { content:""; }
+
+  .stack .row { display:flex; align-items:center; gap:12px; padding:11px 0; border-top:1px solid var(--line); }
+  .stack .row:first-child { border-top:none; }
+  .stack .ic { width:30px; height:30px; border-radius:8px; display:grid; place-items:center; font-family:var(--mono); font-size:12px; font-weight:500; flex:0 0 auto; }
+  .stack .lg { width:30px; height:30px; border-radius:7px; object-fit:contain; flex:0 0 auto; }
+  .stack .row .t b { font-weight:600; font-size:14px; }
+  .stack .row .t span { display:block; font-size:12px; color:var(--muted); margin-top:1px; }
+
+  .exp .row { padding:16px 0; border-top:1px solid var(--line); }
+  .exp .row:first-child { border-top:none; }
+  .exp .row .h { display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
+  .exp .row .h b { font-weight:600; font-size:15px; }
+  .exp .row .h .meta { font-family:var(--mono); font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:0.05em; }
+  .exp .row p { color:var(--ink-2); font-size:13px; line-height:1.55; margin:7px 0 0; max-width:48ch; }
+
+  .awards .a { display:flex; align-items:baseline; gap:10px; padding:10px 0; border-top:1px solid var(--line); font-size:14px; }
+  .awards .a:first-child { border-top:none; }
+  .awards .a b { font-weight:600; }
+  .awards .a .m { font-family:var(--mono); font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:0.05em; margin-left:auto; }
+
+  .reach p { color:var(--ink-2); font-size:14px; margin:0 0 16px; }
+  .reach a.big { display:block; font-size:15px; padding:4px 0; border-bottom:1px solid var(--line); }
+  .reach a.big:hover { color:var(--accent); }
+  .reach .social { margin-top:16px; display:flex; gap:18px; }
+  .reach .social a { font-size:13px; color:var(--ink-2); text-decoration:underline; text-underline-offset:3px; }
+  .foot { margin-top:28px; font-family:var(--mono); font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:0.05em; }
+
+  /* RIGHT bento gallery (masonry) */
+  .col-right { column-count:2; column-gap:16px; padding-top:6px; }
+  .col-right > * { break-inside:avoid; -webkit-column-break-inside:avoid; margin:0 0 16px; display:block; }
+  .proj { position:relative; border-radius:22px; overflow:hidden; background:var(--panel); border:1px solid var(--line); }
+  .proj img, .proj video, .proj .lot { border-radius:inherit; }
+  .proj img, .proj video { width:100%; height:auto; display:block; transition:transform .5s cubic-bezier(.2,.7,.2,1); }
+  .proj:hover img, .proj:hover video { transform:scale(1.03); }
+  .proj .lot { width:100%; aspect-ratio:4/3; background:#efece4; }
+  .proj .lot svg { display:block; }
+  .proj .cap { position:absolute; left:0; right:0; bottom:0; display:flex; align-items:center; justify-content:space-between; padding:16px 18px; background:linear-gradient(180deg,transparent,rgba(6,6,5,.82)); }
+  .proj .cap .n { font-weight:700; font-size:17px; letter-spacing:-0.01em; text-shadow:0 1px 6px rgba(0,0,0,.5); }
+  .proj .cap .c { font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:0.06em; color:#e6e4dc; text-shadow:0 1px 6px rgba(0,0,0,.5); }
+  .proj .arw { position:absolute; top:16px; right:16px; width:34px; height:34px; border-radius:10px; background:rgba(10,10,9,.5); backdrop-filter:blur(4px); display:grid; place-items:center; opacity:0; transform:translateY(-4px); transition:opacity .2s,transform .2s; }
+  .proj:hover .arw { opacity:1; transform:none; }
+  .proj.wide { column-span:all; }
+  .proj.tall .lot { aspect-ratio:9/16; }
+  @media (max-width:640px){ .col-right { column-count:1; } }
+</style>
 </head>
 <body>
+  <div class="shell">
 
-  <nav class="nav">
-    <div class="wrap nav-in">
-      <a class="brand" href="index.html"><span class="dot"></span>Gautham Srinivas</a>
-      <div class="links">
-        <a href="index.html" class="here">Work</a>
-        <a href="about.html">About</a>
-        <a href="mailto:gautham@synchronise.ai">Email</a>
+    <!-- LEFT -->
+    <div class="col-left">
+      <div class="idrow">
+        <img src="avatar.png" alt="Gautham Srinivas" />
+        <div><div class="nm">Gautham Srinivas</div><div class="role">Product Designer</div></div>
       </div>
-    </div>
-  </nav>
 
-  <main class="wrap">
-    <header class="hero">
-      <span class="eyebrow">Product Designer &middot; AI, Brand, Interaction</span>
-      <h1>I design AI products people trust enough to <em>ship</em>.</h1>
-      <p class="sub">Currently building Synchronise AI, an AI employee for small businesses. Before that, product design at Resonate CX and a run of shipped AI tools. I work end to end, from research to production code.</p>
-      <div class="actions">
-        <a class="btn btn-solid" href="#work">See the work <span class="arr">&darr;</span></a>
-        <a class="btn" href="about.html">About me</a>
+      <p class="tagline">I design AI products <span class="dim">&mdash; from research and design systems to shipped, production interfaces &mdash;</span> focused on trust, clarity, and brand.</p>
+      <div class="avail"><span class="d"></span>Available for work.</div><br>
+      <a class="getbtn" href="mailto:gautham@synchronise.ai">Get in touch</a>
+      <div class="logos" aria-label="Education and affiliations">
+        <span class="chip"><img src="logos/unsw.png" alt="UNSW Sydney" /></span>
+        <span class="chip"><img src="logos/usyd.svg" alt="University of Sydney" /></span>
+        <span class="chip"><img src="logos/dfat.png" alt="DFAT Australia" /></span>
+        <span class="chip txt">ANMM</span>
       </div>
-    </header>
 
-    <section class="section" id="work">
-      <div class="section-head">
-        <span class="eyebrow">Selected work</span>
-        <span class="count">2023 &rarr; now</span>
+      <hr class="rule" />
+      <div class="recog">
+        <span><b>Venice</b> &middot; AI 2025</span>
+        <span><b>1st</b> &middot; KPMG &times; UNSW</span>
+        <span><b>Top 50</b> &middot; Red Bull</span>
+        <span><b>Speaker</b> &middot; UNSW</span>
       </div>
-      <div class="worklist">
 
-        <a class="work linkrow" href="synchronise.html">
-          <div class="wmain">
-            <div class="wtitle">Synchronise AI <span class="arr">&#8599;</span></div>
-            <div class="wdesc">An AI employee for small businesses. It drafts the work, the owner approves, the server sends. I own it end to end: design system, AI-native patterns, and production code.</div>
-          </div>
-          <div class="wmeta"><span class="tag">AI Product · Founder</span><br>Case study &middot; 2026</div>
-        </a>
-
-        <a class="work linkrow" href="https://www.gautham.live" target="_blank" rel="noopener">
-          <div class="wmain">
-            <div class="wtitle">Heurify <span class="arr">&#8599;</span></div>
-            <div class="wdesc">AI-powered heuristic evaluation for UI designs. 100 users from a single LinkedIn post; a Netflix design lead commented.</div>
-          </div>
-          <div class="wmeta"><span class="tag">AI Tool · Solo</span><br>Live &middot; 2025</div>
-        </a>
-
-        <a class="work linkrow" href="https://gauth.framer.ai" target="_blank" rel="noopener">
-          <div class="wmain">
-            <div class="wtitle">Heatscape <span class="arr">&#8599;</span></div>
-            <div class="wdesc">AI-powered navigation and cooling alerts for urban heatwaves. Product design across software and hardware.</div>
-          </div>
-          <div class="wmeta"><span class="tag">AI + Hardware</span><br>Case study &middot; 2024</div>
-        </a>
-
-        <a class="work linkrow" href="https://gauth.framer.ai" target="_blank" rel="noopener">
-          <div class="wmain">
-            <div class="wtitle">CupLink <span class="arr">&#8599;</span></div>
-            <div class="wdesc">An NFC and AI-powered reusable cup, building a circular economy for cups at music festivals.</div>
-          </div>
-          <div class="wmeta"><span class="tag">AI Startup</span><br>Case study &middot; 2024</div>
-        </a>
-
-        <a class="work linkrow" href="https://gauth.framer.ai" target="_blank" rel="noopener">
-          <div class="wmain">
-            <div class="wtitle">Sherlocked.ai <span class="arr">&#8599;</span></div>
-            <div class="wdesc">AI-driven access to small-business loans, microfinance, and grants for First Nations communities. Platform design with industry partners.</div>
-          </div>
-          <div class="wmeta"><span class="tag">AI Platform · Co-founder</span><br>Case study &middot; 2024</div>
-        </a>
-
-      </div>
-    </section>
-  </main>
-
-  <footer class="foot">
-    <div class="wrap foot-in">
-      <div class="mark" aria-hidden="true">
-        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="20" cy="20" r="18.5" stroke="#EDEBE2" stroke-width="1.4"/>
-          <text x="20" y="26" text-anchor="middle" font-family="ui-monospace, monospace" font-size="15" fill="#EDEBE2" letter-spacing="0.5">GS</text>
-        </svg>
-      </div>
-      <div class="cta-line">
-        <h3>Let's build something people trust.</h3>
-        <p>Open to Product Designer roles. Based in Sydney, working remotely.</p>
-        <div class="btnrow">
-          <a class="btn btn-solid" href="mailto:gautham@synchronise.ai">Get in touch</a>
-          <a class="btn" href="https://linkedin.com/in/gautham-srinivas" target="_blank" rel="noopener">LinkedIn</a>
+      <hr class="rule" />
+      <section class="about">
+        <h2 class="sec">About me.</h2>
+        <p>I'm Gautham Srinivas, a product designer in Sydney. Six years designing, across a clothing brand turned agency, enterprise SaaS, and my own AI products, shipping end to end from research to production code.</p>
+        <div class="stats">
+          <div class="s"><b>6+</b><span>Years designing</span></div>
+          <div class="s"><b>100+</b><span>User interviews &amp; cold calls</span></div>
+          <div class="s"><b>15+</b><span>Projects shipped</span></div>
+          <div class="s"><b>M.Des</b><span>UNSW &middot; Distinction</span></div>
         </div>
-      </div>
-      <div class="cols">
-        <span class="copy">&copy; 2026 Gautham Srinivas</span>
-        <span class="links">
-          <a href="index.html">Work</a>
-          <a href="about.html">About</a>
-          <a href="https://www.gautham.live" target="_blank" rel="noopener">gautham.live</a>
-          <a href="mailto:gautham@synchronise.ai">Email</a>
-        </span>
-        <span class="status"><span class="dot"></span>Available for work</span>
-      </div>
-    </div>
-  </footer>
+      </section>
 
+      <hr class="rule" />
+      <section class="wid">
+        <h2 class="sec">What I do.</h2>
+        <div class="grp"><div class="gh">Product design <small>01</small></div><ul><li>End-to-end flows</li><li>Wireframes</li><li>Prototypes</li><li>High-fidelity UI</li></ul></div>
+        <div class="grp"><div class="gh">AI-native patterns <small>02</small></div><ul><li>Read / edit / approve</li><li>Generation feedback</li><li>Risk &amp; trust states</li><li>Prompts</li></ul></div>
+        <div class="grp"><div class="gh">Systems &amp; brand <small>03</small></div><ul><li>Design systems</li><li>Per-workspace theming</li><li>Tokens</li><li>Front-end</li></ul></div>
+        <div class="grp"><div class="gh">Research <small>04</small></div><ul><li>Interviews</li><li>Usability testing</li><li>Journey mapping</li><li>Synthesis</li></ul></div>
+      </section>
+
+      <hr class="rule" />
+      <section class="stack">
+        <h2 class="sec">Stack.</h2>
+        <div class="row"><img class="lg" src="logos/stack/markdown.svg" alt="" /><div class="t"><b>DESIGN.md</b><span>Design system as code</span></div></div>
+        <div class="row"><img class="lg" src="logos/stack/fav-higgsfield.png" alt="" /><div class="t"><b>Higgsfield AI</b><span>Image &amp; video generation</span></div></div>
+        <div class="row"><img class="lg" src="logos/stack/fav-claude.png" alt="" /><div class="t"><b>Claude Code</b><span>AI pair-building</span></div></div>
+        <div class="row"><img class="lg" src="logos/stack/fav-codex.png" alt="" /><div class="t"><b>Codex</b><span>AI coding agent</span></div></div>
+        <div class="row"><img class="lg" src="logos/stack/fav-framer.png" alt="" /><div class="t"><b>Framer</b><span>Web design</span></div></div>
+        <div class="row"><img class="lg" src="logos/stack/fav-paper.png" alt="" /><div class="t"><b>Paper</b><span>Prototyping</span></div></div>
+        <div class="row"><img class="lg" src="logos/stack/fav-adobe.png" alt="" /><div class="t"><b>Adobe CC</b><span>Visual craft</span></div></div>
+      </section>
+
+      <hr class="rule" />
+      <section class="exp">
+        <h2 class="sec">Experience.</h2>
+        <div class="row"><div class="h"><b>Founder &amp; Designer</b><span class="meta">Synchronise AI &middot; 2026&ndash;now</span></div><p>An approval-first AI employee for small businesses. Research, design system, AI-native patterns, and production code, end to end, dogfooded live.</p></div>
+        <div class="row"><div class="h"><b>Product Designer</b><span class="meta">Resonate CX &middot; 2025&ndash;26</span></div><p>Global CX SaaS scale-up. Worked across Robyn AI and Frontline Queues (10k+ users); shipped newsletters that lifted open rates 30%. Features approved to production.</p></div>
+        <div class="row"><div class="h"><b>CDP Consultant</b><span class="meta">Voqo AI &middot; 2025</span></div><p>Redesigned onboarding for a funded AI startup building real-estate voice agents (2,000+ MAU). Fixed critical UX friction with devs and PMs.</p></div>
+        <div class="row"><div class="h"><b>UX Design Intern</b><span class="meta">ANMM &middot; 2025</span></div><p>Outdoor play experience for a museum with 1M+ annual visitors. Co-design workshops and First Nations storytelling. Part of my Master's.</p></div>
+        <div class="row"><div class="h"><b>Founder &amp; Freelance</b><span class="meta">Hamletpeople &middot; 2019&ndash;25</span></div><p>My clothing brand from high school, turned design agency. Sites, Shopify stores, and brand systems across ecommerce, music, and construction.</p></div>
+      </section>
+
+      <hr class="rule" />
+      <section class="awards">
+        <h2 class="sec">Recognition.</h2>
+        <div class="a"><b>Ethics &amp; Aesthetics of AI</b><span class="m">Venice &middot; 2025</span></div>
+        <div class="a"><b>Employability Summit speaker</b><span class="m">UNSW &middot; 2025</span></div>
+        <div class="a"><b>Top 50 / 110k startups</b><span class="m">Red Bull &middot; 2024</span></div>
+        <div class="a"><b>1st &middot; Innovator Pro</b><span class="m">KPMG &times; UNSW &middot; 2024</span></div>
+        <div class="a"><b>1st &middot; YLX Nationals</b><span class="m">AIESEC &middot; 2021</span></div>
+      </section>
+
+      <hr class="rule" />
+      <section class="reach">
+        <h2 class="sec">Reach out.</h2>
+        <p>Let's work together to build something people trust.</p>
+        <a class="big" href="mailto:gautham@synchronise.ai">gautham@synchronise.ai</a>
+        <div class="social">
+          <a href="https://linkedin.com/in/gautham-srinivas" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://www.gautham.live" target="_blank" rel="noopener">gautham.live</a>
+          <a href="https://synchronise.ai" target="_blank" rel="noopener">synchronise.ai</a>
+        </div>
+        <div class="foot">&copy; 2026 Gautham Srinivas &middot; Sydney</div>
+      </section>
+    </div>
+
+    <!-- RIGHT gallery -->
+    <div class="col-right">
+      <a class="proj wide" href="https://synchronise.ai" target="_blank" rel="noopener">
+        <img src="proj-synchronise.png" alt="Synchronise AI" />
+        <span class="arw">&#8599;</span>
+        <span class="cap"><span class="n">Synchronise AI</span><span class="c">AI Product &middot; Founder</span></span>
+      </a>
+      <a class="proj" href="https://www.resonate.cx" target="_blank" rel="noopener">
+        <img src="proj-resonate.png" alt="Resonate CX" />
+        <span class="arw">&#8599;</span>
+        <span class="cap"><span class="n">Resonate CX</span><span class="c">Product Designer &middot; Robyn AI, Frontline Queues</span></span>
+      </a>
+      <a class="proj wide" href="https://gauth.framer.ai/cuplink" target="_blank" rel="noopener">
+        <div class="lot" data-src="anim-cuplink.json"></div>
+        <span class="arw">&#8599;</span>
+        <span class="cap"><span class="n">CupLink</span><span class="c">AI + Hardware &middot; Red Bull Top 50</span></span>
+      </a>
+      <a class="proj tall" href="https://gauth.framer.ai/heatscape" target="_blank" rel="noopener">
+        <div class="lot" data-src="anim-heatscape.json"></div>
+        <span class="arw">&#8599;</span>
+        <span class="cap"><span class="n">Heatscape</span><span class="c">AI + Hardware</span></span>
+      </a>
+      <a class="proj" href="https://gauth.framer.ai/sherlocked" target="_blank" rel="noopener">
+        <img src="proj-sherlocked.png" alt="Sherlocked.ai" />
+        <span class="arw">&#8599;</span>
+        <span class="cap"><span class="n">Sherlocked.ai</span><span class="c">Fintech &middot; Co-founder</span></span>
+      </a>
+      <a class="proj wide" href="https://gauth.framer.ai/drimtel" target="_blank" rel="noopener">
+        <video src="proj-drimtel.mp4" autoplay muted loop playsinline poster="proj-drimtel.png"></video>
+        <span class="arw">&#8599;</span>
+        <span class="cap"><span class="n">DrimTel</span><span class="c">Telecom &middot; UX</span></span>
+      </a>
+      <a class="proj wide" href="https://www.gautham.live" target="_blank" rel="noopener" style="display:grid;place-items:center;min-height:160px;">
+        <span style="font-family:var(--mono);font-size:13px;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink-2)">See all projects on gautham.live &#8599;</span>
+      </a>
+    </div>
+
+  </div>
+  <script src="lottie.min.js"></script>
+  <script>
+    (function(){ if(!window.lottie) return;
+      document.querySelectorAll('.lot').forEach(function(el){
+        try { lottie.loadAnimation({ container:el, renderer:'svg', loop:true, autoplay:true, path:el.dataset.src }); } catch(e){}
+      });
+    })();
+  </script>
 </body>
 </html>
