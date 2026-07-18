@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Synchronise AI — Designing the approval moment</title>
+<meta name="description" content="A product design case study: designing how a person approves what an AI wants to do on their behalf. Six weeks of measured usage, and what it changed." />
+<style>
+  :root {
+    --bg:#0A0A09; --panel:#101010; --ink:#F3F1EA; --ink-2:#B9B7AF; --muted:#7E7C74;
+    --line:rgba(255,255,255,0.09); --line-2:rgba(255,255,255,0.16);
+    /* The media panels are a pale field, as in the reference. Ink on that field
+       is the page's dark ground, so the two halves stay one system. */
+    --field:#EFEDE6; --field-2:#E4E1D8; --field-line:#D3CFC4; --field-ink:#12110F; --field-muted:#6E6A61;
+    --sans:"Inter",system-ui,-apple-system,sans-serif; --mono:"DM Mono",ui-monospace,monospace;
+  }
+  *,*::before,*::after { box-sizing:border-box; }
+  html,body { margin:0; padding:0; }
+  img,svg { display:block; max-width:100%; }
+  a { color:inherit; text-decoration:none; }
+  button { font:inherit; }
+  body { background:var(--bg); color:var(--ink); font-family:var(--sans); font-size:15px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+
+  .wrap { max-width:1560px; margin:0 auto; padding:0 28px; }
+  .mono { font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); }
+
+  /* ---------- nav ---------- */
+  .nav { border-bottom:1px solid var(--line); }
+  .nav-in { display:flex; justify-content:space-between; align-items:center; padding:18px 0; gap:20px; }
+  .nav a.back:hover { color:var(--ink); }
+
+  /* ---------- rows: sticky text column beside a large media panel ---------- */
+  .row { display:grid; grid-template-columns:minmax(0,148px) minmax(0,360px) minmax(0,1fr); gap:34px; padding:56px 0; border-bottom:1px solid var(--line); align-items:start; }
+  .rowlabel { position:sticky; top:34px; }
+  .rowtext { position:sticky; top:34px; }
+  .rowtext p { margin:0 0 16px; color:var(--ink-2); font-size:14.5px; line-height:1.62; }
+  .rowtext p:last-of-type { margin-bottom:0; }
+  .rowtext p strong { color:var(--ink); font-weight:600; }
+  .rowtext h2 { font-size:20px; line-height:1.24; letter-spacing:-0.016em; font-weight:600; margin:0 0 16px; text-wrap:balance; }
+
+  .credits { margin-top:22px; font-size:13px; color:var(--muted); line-height:1.75; }
+  .credits b { color:var(--ink-2); font-weight:400; }
+
+  /* ---------- the pale media field ---------- */
+  .field { background:var(--field); color:var(--field-ink); min-width:0; }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; }
+  .grid3 { display:grid; grid-template-columns:1fr 1fr 1fr; }
+  .cell { border-right:1px solid var(--field-line); border-bottom:1px solid var(--field-line); padding:30px; display:flex; flex-direction:column; justify-content:center; min-height:236px; }
+  .grid2 .cell:nth-child(2n), .grid3 .cell:nth-child(3n) { border-right:0; }
+  .cell.full { grid-column:1/-1; border-right:0; }
+  .cell-k { font-family:var(--mono); font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--field-muted); margin-bottom:14px; }
+
+  /* ---------- charts on the field ---------- */
+  .fn { display:flex; flex-direction:column; gap:3px; }
+  .fnrow { display:grid; grid-template-columns:150px minmax(0,1fr) 82px; align-items:center; gap:14px; }
+  .fnname { font-size:12.5px; color:var(--field-muted); }
+  .fntrack { display:block; height:30px; }
+  .fnbar { display:block; height:100%; background:var(--field-2); }
+  .fnrow.end .fnbar { background:var(--field-ink); }
+  .fnrow.end .fnname { color:var(--field-ink); font-weight:600; }
+  .fnval { font-family:var(--mono); font-size:13px; font-variant-numeric:tabular-nums; text-align:right; }
+  .fnpct { display:block; font-family:var(--mono); font-size:9.5px; color:var(--field-muted); }
+
+  .split { display:flex; height:96px; border:1px solid var(--field-ink); }
+  .seg { display:flex; flex-direction:column; justify-content:center; padding:0 18px; min-width:0; }
+  .seg.a { background:var(--field-ink); }
+  .seg.b { background:var(--field); border-left:1px solid var(--field-ink); }
+  .segn { font-family:var(--mono); font-size:24px; font-variant-numeric:tabular-nums; line-height:1; }
+  .seg.a .segn { color:var(--field); }
+  .segk { font-family:var(--mono); font-size:9px; letter-spacing:0.09em; text-transform:uppercase; margin-top:7px; color:var(--field-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .seg.a .segk { color:#8A857A; }
+
+  .bars { display:flex; flex-direction:column; gap:3px; }
+  .brow { display:grid; grid-template-columns:120px minmax(0,1fr) 54px; align-items:center; gap:12px; }
+  .bname { font-family:var(--mono); font-size:10px; color:var(--field-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .btrack { display:block; height:20px; background:var(--field-2); }
+  .bfill { display:block; height:100%; background:var(--field-ink); }
+  .brow.mine .bfill { background:var(--field-2); border-right:2px solid var(--field-ink); }
+  .bval { font-family:var(--mono); font-size:10px; font-variant-numeric:tabular-nums; text-align:right; color:var(--field-muted); }
+
+  .bignum { font-family:var(--mono); font-size:46px; line-height:1; letter-spacing:-0.035em; font-variant-numeric:tabular-nums; }
+  .bigsub { font-size:12.5px; color:var(--field-muted); margin:12px 0 0; }
+  .chips { display:flex; flex-wrap:wrap; gap:4px; margin-top:14px; }
+  .chip { font-family:var(--mono); font-size:9px; letter-spacing:0.05em; padding:3px 7px; border:1px solid var(--field-line); color:var(--field-muted); }
+  .cell.invert { background:var(--field-ink); color:var(--field); }
+  .cell.invert .cell-k, .cell.invert .bigsub { color:#8A857A; }
+  .cell.invert .chip { border-color:rgba(255,255,255,0.2); color:#B7B2A6; }
+
+  /* ---------- the live control ---------- */
+  .card { background:var(--field); border:1px solid var(--field-line); padding:20px; display:flex; flex-direction:column; gap:13px; }
+  .risk { font-family:var(--mono); font-size:8.5px; letter-spacing:0.12em; text-transform:uppercase; padding:3px 7px; border:1px solid var(--field-ink); align-self:flex-start; }
+  .ctitle { font-size:14.5px; font-weight:600; letter-spacing:-0.01em; }
+  .does { font-size:12.5px; color:var(--field-muted); margin:0; padding-left:11px; border-left:2px solid var(--field-ink); }
+  .cites { display:flex; flex-wrap:wrap; gap:5px; }
+  .cite { font-family:var(--mono); font-size:9px; padding:3px 7px; background:var(--field-2); border:1px solid var(--field-line); color:var(--field-muted); }
+  .cite.bare { border-style:dashed; background:transparent; }
+  .approve { font-family:var(--mono); font-size:10.5px; letter-spacing:0.05em; padding:10px 16px; border:1px solid var(--field-ink); background:transparent; color:var(--field-ink); cursor:pointer; align-self:flex-start; transition:background .15s,color .15s; }
+  .approve:hover { background:var(--field-2); }
+  .approve:focus-visible { outline:2px solid var(--field-ink); outline-offset:2px; }
+  .approve[data-s="armed"] { background:var(--field-ink); color:var(--field); }
+  .approve[data-s="sending"], .approve[data-s="done"] { border-color:var(--field-line); color:var(--field-muted); cursor:default; }
+
+  /* ---------- removals ---------- */
+  .led { display:flex; flex-direction:column; gap:16px; }
+  .led-i { display:grid; grid-template-columns:96px minmax(0,1fr); gap:18px; }
+  .led-sha { font-family:var(--mono); font-size:10px; }
+  .led-d { display:block; font-family:var(--mono); font-size:9px; color:var(--field-muted); margin-top:4px; }
+  .led-w { font-size:13.5px; font-weight:600; margin:0 0 6px; }
+  .led-y { font-size:12.5px; color:var(--field-muted); margin:0; line-height:1.6; }
+
+  /* ---------- slot for real product media ---------- */
+  .slot { background:repeating-linear-gradient(135deg,transparent,transparent 8px,var(--field-2) 8px,var(--field-2) 9px); border:1px dashed var(--field-line); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; padding:34px 24px; text-align:center; min-height:236px; }
+  .slot-t { font-family:var(--mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--field-muted); }
+  .slot-d { font-family:var(--mono); font-size:9.5px; color:var(--field-muted); max-width:38ch; line-height:1.7; }
+
+  /* ---------- closing ---------- */
+  .close { padding:56px 0 88px; display:grid; grid-template-columns:minmax(0,148px) minmax(0,1fr); gap:34px; }
+  .close-b { max-width:66ch; }
+  .close-b p { color:var(--ink-2); font-size:14.5px; margin:0 0 16px; line-height:1.65; }
+  .close-b p strong { color:var(--ink); font-weight:600; }
+  .foot { border-top:1px solid var(--line); padding:22px 0 30px; display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+
+  @media (max-width:1080px) {
+    .row { grid-template-columns:minmax(0,1fr); gap:22px; padding:44px 0; }
+    .rowlabel,.rowtext { position:static; }
+    .close { grid-template-columns:minmax(0,1fr); gap:18px; }
+    .grid3 { grid-template-columns:1fr 1fr; }
+    .grid3 .cell:nth-child(3n) { border-right:1px solid var(--field-line); }
+    .grid3 .cell:nth-child(2n) { border-right:0; }
+  }
+  @media (max-width:640px) {
+    .grid2,.grid3 { grid-template-columns:1fr; }
+    .cell,.grid3 .cell:nth-child(3n) { border-right:0; }
+    .fnrow { grid-template-columns:96px minmax(0,1fr) 64px; gap:10px; }
+    .brow { grid-template-columns:82px minmax(0,1fr) 46px; gap:8px; }
+  }
+  @media (prefers-reduced-motion:reduce) { .approve { transition:none; } }
+</style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="wrap nav-in">
+      <a class="mono back" href="index.html">&larr; Gautham Srinivas</a>
+      <span class="mono">Case study &middot; 2026</span>
+    </div>
+  </nav>
+
+  <main class="wrap">
+
+    <!-- ============ opening ============ -->
+    <section class="row">
+      <div class="rowlabel"><span class="mono">Synchronise AI</span></div>
+      <div class="rowtext">
+        <h2>An AI that acts on your business has to ask permission. Nobody has designed that yet.</h2>
+        <p>Synchronise watches a small business's connected tools and stages fully-drafted actions, emails, replies, ad changes, for the owner to approve. No agent holds a send button. Approval is the product.</p>
+        <p>I built it, shipped it to real owners, and watched what they did. Most proposals were never touched at all. And when one was approved, <strong>61% of the time it had been rewritten first</strong>. Approval is not a yes-or-no. It is authorship.</p>
+        <div class="credits">
+          Client: <b>Synchronise AI (my own)</b><br>
+          Role: <b>Product design, design system, research, production code</b><br>
+          Surfaces: <b>Desktop queue, mobile PWA, onboarding, landing</b><br>
+          Sample: <b>18 accounts &middot; 10 workspaces &middot; 660 proposals</b><br>
+          Year: <b>2026, ongoing</b>
+        </div>
+      </div>
+      <div class="field grid3">
+        <div class="cell"><span class="cell-k">Proposals staged</span><span class="bignum">660</span><p class="bigsub">Across every workspace, six weeks.</p></div>
+        <div class="cell"><span class="cell-k">Never opened</span><span class="bignum">402</span><p class="bigsub">Not rejected. Never touched at all.</p></div>
+        <div class="cell invert"><span class="cell-k">Approved after editing</span><span class="bignum">61%</span><p class="bigsub">The finding the redesign turned on.</p></div>
+        <div class="cell"><span class="cell-k">Kinds of action</span><span class="bignum">37</span><p class="bigsub">Collapsed into eight verbs.</p></div>
+        <div class="cell"><span class="cell-k">Surfaces, one contract</span><span class="bignum">5</span><p class="bigsub">They cannot drift apart.</p></div>
+        <div class="cell"><span class="cell-k">Producers earning nothing</span><span class="bignum">27</span><p class="bigsub">158 proposals, zero approvals. Cut.</p></div>
+      </div>
+    </section>
+
+    <!-- ============ 01 the wall ============ -->
+    <section class="row">
+      <div class="rowlabel"><span class="mono">01 &mdash; The wall</span></div>
+      <div class="rowtext">
+        <h2>The wall was not traffic. It was the first decision.</h2>
+        <p>I instrumented the funnel end to end before trusting any of it. Acquisition was fine: <strong>17% of visitors reached sign-up</strong>. The collapse happened after the product was in their hands.</p>
+        <p>Of 18 people who created an account, <strong>3 ever approved or dismissed a single card</strong>. I had been designing a queue. The unsolved problem was the first act of trust.</p>
+        <div class="credits">
+          Sources: <b>Product analytics, application database</b><br>
+          Window: <b>4 Jun &ndash; 18 Jul 2026</b>
+        </div>
+      </div>
+      <div class="field grid2">
+        <div class="cell full">
+          <span class="cell-k">Acquisition &rarr; first decision &middot; n = 166</span>
+          <div class="fn">
+            <div class="fnrow"><span class="fnname">Landing visitors</span><span class="fntrack"><span class="fnbar" style="width:100%"></span></span><span class="fnval">166</span></div>
+            <div class="fnrow"><span class="fnname">Reached sign-up</span><span class="fntrack"><span class="fnbar" style="width:16.9%"></span></span><span class="fnval">28<span class="fnpct">16.9%</span></span></div>
+            <div class="fnrow"><span class="fnname">Created an account</span><span class="fntrack"><span class="fnbar" style="width:10.8%"></span></span><span class="fnval">18<span class="fnpct">10.8%</span></span></div>
+            <div class="fnrow"><span class="fnname">Signed in</span><span class="fntrack"><span class="fnbar" style="width:8.4%"></span></span><span class="fnval">14<span class="fnpct">8.4%</span></span></div>
+            <div class="fnrow"><span class="fnname">Set up a workspace</span><span class="fntrack"><span class="fnbar" style="width:6%"></span></span><span class="fnval">10<span class="fnpct">6.0%</span></span></div>
+            <div class="fnrow end"><span class="fnname">Made one decision</span><span class="fntrack"><span class="fnbar" style="width:1.8%"></span></span><span class="fnval">3<span class="fnpct">1.8%</span></span></div>
+          </div>
+        </div>
+        <div class="cell">
+          <span class="cell-k">Proposals never touched, by workspace</span>
+          <div class="bars">
+            <div class="brow mine"><span class="bname">Operator (mine)</span><span class="btrack"><span class="bfill" style="width:41.7%"></span></span><span class="bval">41.7%</span></div>
+            <div class="brow"><span class="bname">Workspace 2</span><span class="btrack"><span class="bfill" style="width:87.2%"></span></span><span class="bval">87.2%</span></div>
+            <div class="brow"><span class="bname">Workspace 3</span><span class="btrack"><span class="bfill" style="width:90.2%"></span></span><span class="bval">90.2%</span></div>
+            <div class="brow"><span class="bname">Workspaces 4&ndash;11</span><span class="btrack"><span class="bfill" style="width:100%"></span></span><span class="bval">100%</span></div>
+          </div>
+        </div>
+        <div class="cell">
+          <span class="cell-k">What that distinction meant</span>
+          <p class="bigsub" style="margin:0">These cards were not rejected. They were never opened. Dismissal is feedback; silence is noise. Designing against a dismissal rate would have optimised the wrong signal entirely.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 02 rewrite ============ -->
+    <section class="row">
+      <div class="rowlabel"><span class="mono">02 &mdash; The pattern</span></div>
+      <div class="rowtext">
+        <h2>Approval is not a choice. It is a rewrite.</h2>
+        <p>Every agent product ships the same control: accept or reject. When I looked at what people actually did with an approval, <strong>61% of approved drafts had been edited first</strong>.</p>
+        <p>So the binary was wrong. I made editing a first-class state, auto-saving on blur and distinct from execution, so someone can take authorship of a draft without firing it. A human edit also freezes the agent from re-proposing over the top of it.</p>
+        <div class="credits">Signal source: <b>Decision ledger, n = 83 approvals</b></div>
+      </div>
+      <div class="field grid2">
+        <div class="cell full">
+          <span class="cell-k">What an approval actually was</span>
+          <div class="split">
+            <div class="seg a" style="flex:51 1 0"><span class="segn">51</span><span class="segk">Edited, then approved</span></div>
+            <div class="seg b" style="flex:32 1 0"><span class="segn">32</span><span class="segk">Approved as drafted</span></div>
+          </div>
+        </div>
+        <div class="slot">
+          <span class="slot-t">Cover &mdash; inline edit</span>
+          <span class="slot-d">Jitter loop: a draft being edited in place, the Saving indicator resolving to Saved, nothing sending.</span>
+        </div>
+        <div class="cell">
+          <span class="cell-k">The caveat, stated</span>
+          <p class="bigsub" style="margin:0">This window is dominated by one heavy operator. Treat 61% as the shape of the behaviour, not a population rate.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 03 the control ============ -->
+    <section class="row">
+      <div class="rowlabel"><span class="mono">03 &mdash; The control</span></div>
+      <div class="rowtext">
+        <h2>Say what it will do. Then make them mean it.</h2>
+        <p>Two things must be true before someone lets software act for them: they must know exactly what happens, and they must not be able to do it by accident.</p>
+        <p>The consequence line is <strong>derived from the same payload the executor runs</strong>, so the preview cannot drift from the effect. Anything with a wide blast radius arms before it fires, and the button never reports success before the server confirms.</p>
+        <p>The control opposite is the real interaction. Press it twice.</p>
+      </div>
+      <div class="field grid2">
+        <div class="cell full">
+          <span class="cell-k">Approve, armed &mdash; live</span>
+          <div class="card">
+            <span class="risk">High blast radius</span>
+            <span class="ctitle">Pause underperforming ad set</span>
+            <p class="does">Pause &ldquo;Winter Retarget &mdash; AU&rdquo; in Meta Ads. You can resume it any time.</p>
+            <div class="cites">
+              <span class="cite">Meta Ads &middot; spend last 7d &#8599;</span>
+              <span class="cite">Stripe &middot; attributed revenue &#8599;</span>
+              <span class="cite bare">Ledger entry &mdash; no link available</span>
+            </div>
+            <button class="approve" id="ap" data-s="idle">Approve</button>
+          </div>
+        </div>
+        <div class="cell">
+          <span class="cell-k">On the third citation</span>
+          <p class="bigsub" style="margin:0">When the system cannot build a real link to the record, it shows the evidence without one. It never invents a source to make the row look complete. The link is optional at the type level, which is where that guarantee belongs.</p>
+        </div>
+        <div class="slot">
+          <span class="slot-t">Cover &mdash; the queue in context</span>
+          <span class="slot-d">Jitter loop: lanes of proposals, one high-risk card arming and confirming.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 04 the system ============ -->
+    <section class="row">
+      <div class="rowlabel"><span class="mono">04 &mdash; The system</span></div>
+      <div class="rowtext">
+        <h2>Consistency enforced by the compiler, not by a library.</h2>
+        <p>Thirty-seven kinds of proposal, five surfaces, one designer. A component library would not have held, because surfaces drift when the rule lives in a document nobody reads.</p>
+        <p>So the visual language is a single projection module. Every card collapses into <strong>eight verbs</strong>, each with a fixed palette, icon and present-participle loading state, and every surface renders from that one contract. Risk is typed so that <strong>adding a new kind of action fails the build until someone declares its blast radius</strong>.</p>
+        <div class="credits">Artefacts: <b>Design spec, projection module, 45 tokens</b></div>
+      </div>
+      <div class="field grid3">
+        <div class="cell"><span class="cell-k">Kinds of action</span><span class="bignum">37</span><div class="chips"><span class="chip">email</span><span class="chip">dm_reply</span><span class="chip">social</span><span class="chip">page</span><span class="chip">+33</span></div></div>
+        <div class="cell invert"><span class="cell-k">Verbs they become</span><span class="bignum">8</span><div class="chips"><span class="chip">Sending&hellip;</span><span class="chip">Posting&hellip;</span><span class="chip">Filing&hellip;</span></div></div>
+        <div class="cell"><span class="cell-k">Surfaces, one contract</span><span class="bignum">5</span><div class="chips"><span class="chip">queue</span><span class="chip">mobile</span><span class="chip">home</span><span class="chip">share</span><span class="chip">detail</span></div></div>
+        <div class="cell"><span class="cell-k">Fields in the card contract</span><span class="bignum">27</span></div>
+        <div class="cell"><span class="cell-k">Token references in code</span><span class="bignum">4,289</span></div>
+        <div class="cell"><span class="cell-k">Purpose-built detail shapes</span><span class="bignum">8</span></div>
+      </div>
+    </section>
+
+    <!-- ============ 05 removals ============ -->
+    <section class="row">
+      <div class="rowlabel"><span class="mono">05 &mdash; Removed</span></div>
+      <div class="rowtext">
+        <h2>Three things I shipped, measured, and deleted.</h2>
+        <p>The queue's real failure mode is volume, not accuracy. Twenty-seven of the producers I built earned <strong>zero approvals across 158 proposals</strong>. Supply was never the constraint.</p>
+        <p>Each of these is in version control with its reason attached.</p>
+      </div>
+      <div class="field">
+        <div class="cell full" style="min-height:0">
+          <span class="cell-k">The removal ledger</span>
+          <div class="led">
+            <div class="led-i">
+              <div><span class="led-sha">9633cadb</span><span class="led-d">13 Jul 2026</span></div>
+              <div><p class="led-w">Deleted the dismiss-reason chips.</p><p class="led-y">Shipped to learn why people rejected a draft. Across 147 dismissals it captured a reason zero times. A feedback control nobody uses is not neutral, it is a tax on the exact moment you are asking for trust.</p></div>
+            </div>
+            <div class="led-i">
+              <div><span class="led-sha">783a</span><span class="led-d">9 Jul 2026</span></div>
+              <div><p class="led-w">Reverted a full landing restructure inside 24 hours.</p><p class="led-y">A ten-section rebuild that read as a longer page, not a clearer one. Shipping it was the fastest way to see that; reverting it the next morning was cheaper than defending it.</p></div>
+            </div>
+            <div class="led-i">
+              <div><span class="led-sha">4f0c30b0</span><span class="led-d">17 Jul 2026</span></div>
+              <div><p class="led-w">Removed the home scoreboard the day after adding it.</p><p class="led-y">It measured the product's activity rather than the owner's business. A metric that flatters the software is worse than no metric.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ closing ============ -->
+    <section class="close">
+      <div><span class="mono">06 &mdash; On the numbers</span></div>
+      <div class="close-b">
+        <p><strong>This is six weeks of data from 18 accounts.</strong> It is early, and I would rather say so than present it as more.</p>
+        <p>What holds at this sample size are shapes, not rates: proposals die in silence rather than rejection, approval is usually a rewrite, and most of the supply I built earned nothing. Those findings are consistent across every workspace and survived being checked against the raw ledger rather than a dashboard.</p>
+        <p>What does not hold are percentages with decimal points. My own workspace is the majority of recorded decisions, so every rate here describes a heavy operator with a thin corroborating sample behind them. There is a tempting week-on-week trend in the approval rate that I have left out entirely, because I cannot attribute it to any change I made.</p>
+        <p>Auditing the instrumentation before trusting it changed four numbers materially: a page-view event firing on my own machine, decision events emitted server-side that read as user interactions, an onboarding property null in 85% of rows, and a generation event inflating unique users by more than two orders of magnitude. <strong>Every figure above survived that audit.</strong> The ones that did not are not here.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="wrap foot">
+    <span class="mono">Gautham Srinivas &middot; Sydney</span>
+    <span class="mono"><a href="index.html">Back to work</a></span>
+  </footer>
+
+<script>
+  // The shipped interaction, reproduced: idle -> armed -> sending -> done.
+  // The label never claims success before the server has confirmed it.
+  (function () {
+    var b = document.getElementById('ap'); if (!b) return;
+    var t = [], L = { idle:'Approve', armed:"Confirm - can't be undone", sending:'Pausing…', done:'Paused ✓' };
+    function set(s) { b.dataset.s = s; b.textContent = L[s]; }
+    function clear() { t.forEach(clearTimeout); t = []; }
+    b.addEventListener('click', function () {
+      var s = b.dataset.s;
+      if (s === 'idle') { set('armed'); t.push(setTimeout(function(){ set('idle'); }, 4000)); return; }
+      if (s === 'armed') {
+        clear(); set('sending');
+        t.push(setTimeout(function(){ set('done'); t.push(setTimeout(function(){ set('idle'); }, 2600)); }, 1400));
+      }
+    });
+  })();
+</script>
+</body>
+</html>
