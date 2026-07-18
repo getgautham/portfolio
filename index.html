@@ -102,6 +102,12 @@
   .proj.port { aspect-ratio:4/5; }
   .proj img, .proj video, .proj .lot { border-radius:inherit; }
   .proj .lot { background:#efece4; }
+  .proj .cover { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; gap:10px; padding:26px; background:var(--panel); }
+  .proj .cover-mark { font-size:9px; color:var(--ink); opacity:0.55; line-height:1; }
+  .proj .cover-name { font-size:34px; font-weight:600; letter-spacing:-0.03em; line-height:1; color:var(--ink); margin-top:auto; }
+  .proj .cover-line { font-size:14px; line-height:1.45; color:var(--ink-2); max-width:22ch; }
+  .proj .cover-meta { font-family:var(--mono); font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); }
+  .proj.theo:hover .cover { background:#131311; }
   .proj img, .proj video, .proj .lot { width:100%; height:100%; object-fit:cover; object-position:top center; display:block; }
   .proj .lot, .proj img, .proj video { filter:grayscale(1) contrast(1.03); transition:filter .45s ease, transform .6s cubic-bezier(.2,.8,.2,1); }
   .proj:hover .lot, .proj:hover img, .proj:hover video,
@@ -246,10 +252,15 @@
         <span class="arw">&#8599;</span>
         <span class="cap"><span class="n">Resonate CX</span><span class="c">Product Designer &middot; Robyn AI, Frontline Queues</span></span>
       </a>
-      <a class="proj tall" href="https://gauth.framer.ai/heatscape" target="_blank" rel="noopener">
-        <div class="lot" data-src="anim-heatscape.json"></div>
+      <a class="proj tall theo" href="https://gauth.framer.ai" target="_blank" rel="noopener">
+        <span class="cover">
+          <span class="cover-mark" aria-hidden="true">&#9679;</span>
+          <span class="cover-name">Theo</span>
+          <span class="cover-line">An AI journal that reads the day back to you.</span>
+          <span class="cover-meta">iOS &middot; 2026</span>
+        </span>
         <span class="arw">&#8599;</span>
-        <span class="cap"><span class="n">Heatscape</span><span class="c">AI + Hardware</span></span>
+        <span class="cap"><span class="n">Theo</span><span class="c">AI Journal &middot; iOS</span></span>
       </a>
       <a class="proj" href="https://gauth.framer.ai/drimtel" target="_blank" rel="noopener">
         <video src="proj-drimtel.mp4" autoplay muted loop playsinline poster="proj-drimtel.png"></video>
