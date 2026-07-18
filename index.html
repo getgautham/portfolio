@@ -98,16 +98,26 @@
   .proj { position:relative; border-radius:22px; overflow:hidden; background:var(--panel); border:1px solid var(--line); }
   .proj img, .proj video, .proj .lot { border-radius:inherit; }
   .proj img, .proj video { width:100%; height:auto; display:block; transition:transform .5s cubic-bezier(.2,.7,.2,1); }
-  .proj:hover img, .proj:hover video { transform:scale(1.03); }
+  .proj .lot, .proj img, .proj video { filter:grayscale(1) contrast(1.03); transition:filter .45s ease, transform .6s cubic-bezier(.2,.8,.2,1); }
+  .proj:hover .lot, .proj:hover img, .proj:hover video,
+  .proj:focus-visible .lot, .proj:focus-visible img, .proj:focus-visible video { filter:grayscale(0) contrast(1); }
+  .proj:hover img, .proj:hover video,
+  .proj:focus-visible img, .proj:focus-visible video { transform:scale(1.03); }
   .proj .lot { width:100%; aspect-ratio:4/3; background:#efece4; }
   .proj .lot svg { display:block; }
-  .proj .cap { position:absolute; left:0; right:0; bottom:0; display:flex; align-items:center; justify-content:space-between; padding:16px 18px; background:linear-gradient(180deg,transparent,rgba(6,6,5,.82)); }
+  .proj .cap { opacity:0; transform:translateY(8px); transition:opacity .3s ease, transform .35s cubic-bezier(.2,.8,.2,1); position:absolute; left:0; right:0; bottom:0; display:flex; align-items:center; justify-content:space-between; padding:16px 18px; background:linear-gradient(180deg,transparent,rgba(6,6,5,.82)); }
   .proj .cap .n { font-weight:700; font-size:17px; letter-spacing:-0.01em; text-shadow:0 1px 6px rgba(0,0,0,.5); }
   .proj .cap .c { font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:0.06em; color:#e6e4dc; text-shadow:0 1px 6px rgba(0,0,0,.5); }
   .proj .arw { position:absolute; top:16px; right:16px; width:34px; height:34px; border-radius:10px; background:rgba(10,10,9,.5); backdrop-filter:blur(4px); display:grid; place-items:center; opacity:0; transform:translateY(-4px); transition:opacity .2s,transform .2s; }
   .proj:hover .arw { opacity:1; transform:none; }
+  .proj:hover .cap, .proj:focus-visible .cap { opacity:1; transform:none; }
+  /* No hover on touch, and reduced-motion users should not have to chase it. */
+  @media (hover:none) { .proj .cap { opacity:1; transform:none; } .proj .lot, .proj img, .proj video { filter:none; } }
+  @media (prefers-reduced-motion:reduce) { .proj .cap { opacity:1; transform:none; } .proj img, .proj video { transition:none; } }
   .proj.wide { column-span:all; }
   .proj.tall .lot { aspect-ratio:9/16; }
+  .proj.sq .lot { aspect-ratio:1/1; }
+  .proj.port .lot { aspect-ratio:4/5; }
   @media (max-width:640px){ .col-right { column-count:1; } }
 </style>
 </head>
@@ -218,7 +228,7 @@
         <span class="arw">&#8599;</span>
         <span class="cap"><span class="n">Resonate CX</span><span class="c">Product Designer &middot; Robyn AI, Frontline Queues</span></span>
       </a>
-      <a class="proj wide" href="https://gauth.framer.ai/cuplink" target="_blank" rel="noopener">
+      <a class="proj sq" href="https://gauth.framer.ai/cuplink" target="_blank" rel="noopener">
         <div class="lot" data-src="anim-cuplink.json"></div>
         <span class="arw">&#8599;</span>
         <span class="cap"><span class="n">CupLink</span><span class="c">AI + Hardware &middot; Red Bull Top 50</span></span>
@@ -233,12 +243,12 @@
         <span class="arw">&#8599;</span>
         <span class="cap"><span class="n">Sherlocked.ai</span><span class="c">Fintech &middot; Co-founder</span></span>
       </a>
-      <a class="proj wide" href="https://gauth.framer.ai/drimtel" target="_blank" rel="noopener">
+      <a class="proj tall" href="https://gauth.framer.ai/drimtel" target="_blank" rel="noopener">
         <video src="proj-drimtel.mp4" autoplay muted loop playsinline poster="proj-drimtel.png"></video>
         <span class="arw">&#8599;</span>
         <span class="cap"><span class="n">DrimTel</span><span class="c">Telecom &middot; UX</span></span>
       </a>
-      <a class="proj wide" href="https://www.gautham.live" target="_blank" rel="noopener" style="display:grid;place-items:center;min-height:160px;">
+      <a class="proj port" href="https://www.gautham.live" target="_blank" rel="noopener" style="display:grid;place-items:center;min-height:160px;">
         <span style="font-family:var(--mono);font-size:13px;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink-2)">See all projects on gautham.live &#8599;</span>
       </a>
     </div>
