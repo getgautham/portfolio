@@ -123,6 +123,53 @@
     .anno-t { font-size:8.5px; width:124px; padding:4px 6px; }
   }
 
+  /* ---------- the deck ----------
+     Five panels side by side. Scrolling down the tall outer section drives the
+     track sideways, so the argument reads as one continuous move rather than
+     five stacked sections. Panels are full-bleed and separated by a single hard
+     rule, as in the reference: no rounded corners, no gutter, edge to edge. */
+  .hscroll { height:520vh; position:relative; }
+  .hs-sticky { position:sticky; top:0; height:100vh; overflow:hidden; border-bottom:1px solid var(--line); }
+  /* Panel width is measured in px by the script, not 100vw: vw includes the
+     scrollbar, which would push each panel a little wider than the visible area
+     and clip the right edge of every text column. */
+  .hs-track { display:flex; height:100%; width:calc(5 * var(--pw, 100vw)); will-change:transform; }
+  .hp { width:var(--pw, 100vw); height:100%; display:grid; grid-template-columns:minmax(0,3fr) minmax(0,2fr); border-right:1px solid #000; }
+  .hp:last-child { border-right:0; }
+  .hp-vis { min-width:0; overflow-y:auto; overflow-x:hidden; background:var(--field); border-right:1px solid #000;
+            display:flex; flex-direction:column; justify-content:center; }
+  /* Flex children do not shrink by default, and these grids were sized for a
+     full-width column, so without this they spill past both panel edges. */
+  .hp-vis > * { width:100%; min-width:0; flex:none; }
+  .hp-vis > .field, .hp-vis > .shot { border-bottom:0; }
+  .hp-vis .cell { min-height:0; padding:22px clamp(16px,1.9vw,28px); }
+  .hp-vis .bignum { font-size:clamp(30px,2.9vw,42px); }
+  .hp-vis .shot { padding:22px clamp(96px,10vw,140px) 6px; }
+  .hp-vis .fnrow { grid-template-columns:minmax(0,116px) minmax(0,1fr) 64px; gap:10px; }
+  .hp-vis .brow { grid-template-columns:minmax(0,96px) minmax(0,1fr) 46px; gap:9px; }
+  .hp-vis .led-i { grid-template-columns:78px minmax(0,1fr); gap:14px; }
+  /* Generous side padding: the track lands a few pixels off a panel boundary
+     mid-scroll, and a tight text column would clip its last glyph there. */
+  .hp-txt { min-width:0; overflow-y:auto; display:flex; flex-direction:column; justify-content:center;
+            padding:0 clamp(34px,4.6vw,76px); }
+  .hp-n { display:block; margin-bottom:18px; }
+  .hp-txt .rowtext { position:static; }
+  .hp-txt .rowtext h2 { font-size:clamp(21px,2vw,29px); margin-bottom:18px; }
+  .hp-txt .rowtext p { font-size:clamp(13.5px,1.02vw,15.5px); }
+  .hs-prog { position:absolute; left:0; right:0; bottom:0; height:2px; background:rgba(255,255,255,0.10); }
+  .hs-prog span { display:block; height:100%; width:0; background:var(--ink); }
+
+  /* Narrow or reduced-motion: no sticky track, panels stack, page reads down. */
+  @media (max-width:900px), (prefers-reduced-motion:reduce) {
+    .hscroll { height:auto; }
+    .hs-sticky { position:static; height:auto; overflow:visible; }
+    .hs-track { display:block; width:auto; transform:none !important; }
+    .hp { width:auto; height:auto; grid-template-columns:minmax(0,1fr); border-right:0; border-bottom:1px solid var(--line); }
+    .hp-vis { overflow:visible; border-right:0; }
+    .hp-txt { overflow:visible; padding:26px clamp(18px,4vw,34px) 40px; }
+    .hs-prog { display:none; }
+  }
+
   /* ---------- removals ---------- */
   .led { display:flex; flex-direction:column; gap:16px; }
   .led-i { display:grid; grid-template-columns:96px minmax(0,1fr); gap:18px; }
@@ -196,21 +243,12 @@
       </div>
     </section>
 
-    <!-- ============ 01 the research ============ -->
-    <section class="row">
-      <div class="rowlabel"><span class="mono">01 &mdash; The research</span></div>
-      <div class="rowtext">
-        <h2>I sold it, used it, and asked about it, because no single signal tells the truth.</h2>
-        <p>Before any of those numbers existed the question was narrower: is this a real pain for a specific person, and can that person actually adopt it? I took it to the exact profile I believed it was for rather than to whoever would take a call, and ran <strong>more than 100 conversations</strong> across moderated user testing, sales calls and customer interviews.</p>
-        <p>A segment had to pass both tests. Plenty of owners agreed the idea sounded useful. Far fewer were already doing the work badly at 10pm with a workaround they were embarrassed by. And a segment can have the pain and still be unable to adopt, with nothing connected and no moment in the day the product fits. Those were the expensive ones to learn, because the enthusiasm in the call was real and it went nowhere.</p>
-        <p>I found the prospects and drafted the outreach <strong>using the product itself</strong>, so every sales call was also a user test. Interviews tell you whether someone likes an idea; they are much worse at telling you whether the value repeats. Working in it against a real deadline was the only thing that surfaced the second and third week failures, the mornings where the queue stopped being worth opening.</p>
-        <div class="credits">
-          Method: <b>User testing, sales calls, customer interviews, dogfooding, product analytics</b><br>
-          Scale: <b>100+ conversations</b><br>
-          Tests a segment had to pass: <b>Real pain &middot; Able to adopt</b>
-        </div>
-      </div>
-      <div class="field grid2">
+    <!-- ============ the deck: 01-05, horizontal ============ -->
+    <section class="hscroll" id="hs" aria-label="Case study, five parts">
+      <div class="hs-sticky">
+        <div class="hs-track" id="hstrack">
+        <article class="hp">
+          <div class="hp-vis"><div class="field grid2">
         <div class="cell">
           <span class="cell-k">Interviews</span>
           <p class="bigsub" style="margin:0">Tell you what someone says they want. Blind to what they will actually open on an ordinary Tuesday.</p>
@@ -231,22 +269,24 @@
           <span class="cell-k">Where they disagreed</span>
           <p class="bigsub" style="margin:0">Running all four continuously, rather than treating research as a phase that ended before building started, meant the four could be read against each other. Where they agreed I built with confidence. Where they disagreed was worth more: the features people asked for warmly in an interview and then never touched in the product became the clearest signal in the project, and the one the rest of this case study follows. Selling taught the other half. Repeating a pitch to someone with no reason to be generous is the fastest way to find which words carry, so the messaging was not written so much as cut down, by people declining to buy, until only the parts that landed were left.</p>
         </div>
-      </div>
-    </section>
-
-    <!-- ============ 02 the wall ============ -->
-    <section class="row">
-      <div class="rowlabel"><span class="mono">02 &mdash; The wall</span></div>
-      <div class="rowtext">
-        <h2>The wall was not traffic. It was the first decision.</h2>
-        <p>I instrumented the funnel end to end before trusting any of it. Acquisition was fine: <strong>17% of visitors reached sign-up</strong>. The collapse happened after the product was in their hands.</p>
-        <p>Of 18 people who created an account, <strong>3 ever approved or dismissed a single card</strong>. I had been designing a queue. The unsolved problem was the first act of trust.</p>
+      </div></div>
+          <div class="hp-txt">
+            <span class="mono hp-n">01 &mdash; The research &nbsp;&middot;&nbsp; 1 / 5</span>
+            <div class="rowtext">
+        <h2>I sold it, used it, and asked about it, because no single signal tells the truth.</h2>
+        <p>Before any of those numbers existed the question was narrower: is this a real pain for a specific person, and can that person actually adopt it? I took it to the exact profile I believed it was for rather than to whoever would take a call, and ran <strong>more than 100 conversations</strong> across moderated user testing, sales calls and customer interviews.</p>
+        <p>A segment had to pass both tests. Plenty of owners agreed the idea sounded useful. Far fewer were already doing the work badly at 10pm with a workaround they were embarrassed by. And a segment can have the pain and still be unable to adopt, with nothing connected and no moment in the day the product fits. Those were the expensive ones to learn, because the enthusiasm in the call was real and it went nowhere.</p>
+        <p>I found the prospects and drafted the outreach <strong>using the product itself</strong>, so every sales call was also a user test. Interviews tell you whether someone likes an idea; they are much worse at telling you whether the value repeats. Working in it against a real deadline was the only thing that surfaced the second and third week failures, the mornings where the queue stopped being worth opening.</p>
         <div class="credits">
-          Sources: <b>Product analytics, application database</b><br>
-          Window: <b>4 Jun &ndash; 18 Jul 2026</b>
+          Method: <b>User testing, sales calls, customer interviews, dogfooding, product analytics</b><br>
+          Scale: <b>100+ conversations</b><br>
+          Tests a segment had to pass: <b>Real pain &middot; Able to adopt</b>
         </div>
       </div>
-      <div class="field grid2">
+          </div>
+        </article>
+        <article class="hp">
+          <div class="hp-vis"><div class="field grid2">
         <div class="cell full">
           <span class="cell-k">Acquisition &rarr; first decision &middot; n = 166</span>
           <div class="fn">
@@ -271,19 +311,22 @@
           <span class="cell-k">What that distinction meant</span>
           <p class="bigsub" style="margin:0">These cards were not rejected. They were never opened. Dismissal is feedback; silence is noise. Designing against a dismissal rate would have optimised the wrong signal entirely.</p>
         </div>
+      </div></div>
+          <div class="hp-txt">
+            <span class="mono hp-n">02 &mdash; The wall &nbsp;&middot;&nbsp; 2 / 5</span>
+            <div class="rowtext">
+        <h2>The wall was not traffic. It was the first decision.</h2>
+        <p>I instrumented the funnel end to end before trusting any of it. Acquisition was fine: <strong>17% of visitors reached sign-up</strong>. The collapse happened after the product was in their hands.</p>
+        <p>Of 18 people who created an account, <strong>3 ever approved or dismissed a single card</strong>. I had been designing a queue. The unsolved problem was the first act of trust.</p>
+        <div class="credits">
+          Sources: <b>Product analytics, application database</b><br>
+          Window: <b>4 Jun &ndash; 18 Jul 2026</b>
+        </div>
       </div>
-    </section>
-
-    <!-- ============ 02 rewrite ============ -->
-    <section class="row">
-      <div class="rowlabel"><span class="mono">03 &mdash; The pattern</span></div>
-      <div class="rowtext">
-        <h2>Approval is not a choice. It is a rewrite.</h2>
-        <p>Every agent product ships the same control: accept or reject. When I looked at what people actually did with an approval, <strong>61% of approved drafts had been edited first</strong>.</p>
-        <p>So the binary was wrong. I made editing a first-class state, auto-saving on blur and distinct from execution, so someone can take authorship of a draft without firing it. A human edit also freezes the agent from re-proposing over the top of it.</p>
-        <div class="credits">Signal source: <b>Decision ledger, n = 83 approvals</b></div>
-      </div>
-      <div class="field grid2">
+          </div>
+        </article>
+        <article class="hp">
+          <div class="hp-vis"><div class="field grid2">
         <div class="cell full">
           <span class="cell-k">What an approval actually was</span>
           <div class="split">
@@ -299,19 +342,19 @@
           <span class="cell-k">The caveat, stated</span>
           <p class="bigsub" style="margin:0">This window is dominated by one heavy operator. Treat 61% as the shape of the behaviour, not a population rate.</p>
         </div>
+      </div></div>
+          <div class="hp-txt">
+            <span class="mono hp-n">03 &mdash; The pattern &nbsp;&middot;&nbsp; 3 / 5</span>
+            <div class="rowtext">
+        <h2>Approval is not a choice. It is a rewrite.</h2>
+        <p>Every agent product ships the same control: accept or reject. When I looked at what people actually did with an approval, <strong>61% of approved drafts had been edited first</strong>.</p>
+        <p>So the binary was wrong. I made editing a first-class state, auto-saving on blur and distinct from execution, so someone can take authorship of a draft without firing it. A human edit also freezes the agent from re-proposing over the top of it.</p>
+        <div class="credits">Signal source: <b>Decision ledger, n = 83 approvals</b></div>
       </div>
-    </section>
-
-    <!-- ============ 03 the control ============ -->
-    <section class="row">
-      <div class="rowlabel"><span class="mono">04 &mdash; The control</span></div>
-      <div class="rowtext">
-        <h2>Say what it will do. Then make them mean it.</h2>
-        <p>Two things must be true before someone lets software act for them: they must know exactly what happens, and they must not be able to do it by accident.</p>
-        <p>The consequence line is <strong>derived from the same payload the executor runs</strong>, so the preview cannot drift from the effect. Anything with a wide blast radius arms before it fires, and the button never reports success before the server confirms.</p>
-        <p>The control opposite is the real interaction. Press it twice.</p>
-      </div>
-      <div class="field grid2">
+          </div>
+        </article>
+        <article class="hp">
+          <div class="hp-vis"><div class="field grid2">
         <div class="cell full">
           <span class="cell-k">Approve, armed &mdash; live</span>
           <div class="card">
@@ -350,25 +393,38 @@
         <div class="shot-cap" style="grid-column:1/-1">
           <b>The desk, running.</b> Captured from the product against a seeded demo business, so the interface is real and the customers are not. Proposals sit to the left with what they will do; the owner&rsquo;s own numbers and the people who actually wrote back sit to the right, because the queue has to earn attention against them.
         </div>
+      </div></div>
+          <div class="hp-txt">
+            <span class="mono hp-n">04 &mdash; The control &nbsp;&middot;&nbsp; 4 / 5</span>
+            <div class="rowtext">
+        <h2>Say what it will do. Then make them mean it.</h2>
+        <p>Two things must be true before someone lets software act for them: they must know exactly what happens, and they must not be able to do it by accident.</p>
+        <p>The consequence line is <strong>derived from the same payload the executor runs</strong>, so the preview cannot drift from the effect. Anything with a wide blast radius arms before it fires, and the button never reports success before the server confirms.</p>
+        <p>The control opposite is the real interaction. Press it twice.</p>
       </div>
-    </section>
-
-    <!-- ============ 04 the system ============ -->
-    <section class="row">
-      <div class="rowlabel"><span class="mono">05 &mdash; The system</span></div>
-      <div class="rowtext">
-        <h2>Consistency enforced by the compiler, not by a library.</h2>
-        <p>Thirty-seven kinds of proposal, five surfaces, one designer. A component library would not have held, because surfaces drift when the rule lives in a document nobody reads.</p>
-        <p>So the visual language is a single projection module. Every card collapses into <strong>eight verbs</strong>, each with a fixed palette, icon and present-participle loading state, and every surface renders from that one contract. Risk is typed so that <strong>adding a new kind of action fails the build until someone declares its blast radius</strong>.</p>
-        <div class="credits">Artefacts: <b>Design spec, projection module, 45 tokens</b></div>
-      </div>
-      <div class="field grid3">
+          </div>
+        </article>
+        <article class="hp">
+          <div class="hp-vis"><div class="field grid3">
         <div class="cell"><span class="cell-k">Kinds of action</span><span class="bignum">37</span><div class="chips"><span class="chip">email</span><span class="chip">dm_reply</span><span class="chip">social</span><span class="chip">page</span><span class="chip">+33</span></div></div>
         <div class="cell invert"><span class="cell-k">Verbs they become</span><span class="bignum">8</span><div class="chips"><span class="chip">Sending&hellip;</span><span class="chip">Posting&hellip;</span><span class="chip">Filing&hellip;</span></div></div>
         <div class="cell"><span class="cell-k">Surfaces, one contract</span><span class="bignum">5</span><div class="chips"><span class="chip">queue</span><span class="chip">mobile</span><span class="chip">home</span><span class="chip">share</span><span class="chip">detail</span></div></div>
         <div class="cell"><span class="cell-k">Fields in the card contract</span><span class="bignum">27</span></div>
         <div class="cell"><span class="cell-k">Token references in code</span><span class="bignum">4,289</span></div>
         <div class="cell"><span class="cell-k">Purpose-built detail shapes</span><span class="bignum">8</span></div>
+      </div></div>
+          <div class="hp-txt">
+            <span class="mono hp-n">05 &mdash; The system &nbsp;&middot;&nbsp; 5 / 5</span>
+            <div class="rowtext">
+        <h2>Consistency enforced by the compiler, not by a library.</h2>
+        <p>Thirty-seven kinds of proposal, five surfaces, one designer. A component library would not have held, because surfaces drift when the rule lives in a document nobody reads.</p>
+        <p>So the visual language is a single projection module. Every card collapses into <strong>eight verbs</strong>, each with a fixed palette, icon and present-participle loading state, and every surface renders from that one contract. Risk is typed so that <strong>adding a new kind of action fails the build until someone declares its blast radius</strong>.</p>
+        <div class="credits">Artefacts: <b>Design spec, projection module, 45 tokens</b></div>
+      </div>
+          </div>
+        </article>
+        </div>
+        <div class="hs-prog" aria-hidden><span id="hsbar"></span></div>
       </div>
     </section>
 
@@ -420,6 +476,37 @@
   </footer>
 
 <script>
+  // Vertical scroll drives the deck sideways. Bails out entirely when the track
+  // is stacked (narrow viewport or reduced motion), so the CSS fallback is the
+  // only thing positioning panels there.
+  (function () {
+    var sec = document.getElementById('hs'), track = document.getElementById('hstrack'), bar = document.getElementById('hsbar');
+    if (!sec || !track) return;
+    var stacked = function () {
+      return window.matchMedia('(max-width:900px)').matches ||
+             window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+    };
+    var ticking = false;
+    function frame() {
+      ticking = false;
+      if (stacked()) { track.style.transform = ''; return; }
+      var pw = sec.firstElementChild.clientWidth;
+      sec.style.setProperty('--pw', pw + 'px');
+      var travel = sec.offsetHeight - window.innerHeight;
+      if (travel <= 0) return;
+      var p = (window.scrollY - sec.offsetTop) / travel;
+      p = p < 0 ? 0 : p > 1 ? 1 : p;
+      // Whole pixels only. Sub-pixel offsets leave a panel a fraction off its
+      // border and clip the last glyph of every line in the text column.
+      track.style.transform = 'translate3d(-' + Math.round(p * 4 * pw) + 'px,0,0)';
+      if (bar) bar.style.width = (p * 100) + '%';
+    }
+    function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    frame();
+  })();
+
   // The shipped interaction, reproduced: idle -> armed -> sending -> done.
   // The label never claims success before the server has confirmed it.
   (function () {
