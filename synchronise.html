@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Synchronise AI — Designing the approval moment</title>
 <meta name="description" content="A product design case study: designing how a person approves what an AI wants to do on their behalf. Six weeks of measured usage, and what it changed." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="preconnect" href="https://api.fontshare.com" />
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600,700&display=swap" />
 <style>
   :root {
     --bg:#0A0A09; --panel:#101010; --ink:#F3F1EA; --ink-2:#B9B7AF; --muted:#7E7C74;
@@ -12,7 +17,7 @@
     /* The media panels are a pale field, as in the reference. Ink on that field
        is the page's dark ground, so the two halves stay one system. */
     --field:#EFEDE6; --field-2:#E4E1D8; --field-line:#D3CFC4; --field-ink:#12110F; --field-muted:#6E6A61;
-    --sans:"Inter",system-ui,-apple-system,sans-serif; --mono:"DM Mono",ui-monospace,monospace;
+    --sans:"Switzer","Inter",system-ui,-apple-system,sans-serif; --mono:"DM Mono",ui-monospace,monospace;
   }
   *,*::before,*::after { box-sizing:border-box; }
   html,body { margin:0; padding:0; }
@@ -123,55 +128,34 @@
     .anno-t { font-size:8.5px; width:124px; padding:4px 6px; }
   }
 
-  /* ---------- the deck ----------
-     Five panels side by side. Scrolling down the tall outer section drives the
-     track sideways, so the argument reads as one continuous move rather than
-     five stacked sections. Panels are full-bleed and separated by a single hard
-     rule, as in the reference: no rounded corners, no gutter, edge to edge. */
-  .hscroll { height:520vh; position:relative; }
-  .hs-sticky { position:sticky; top:0; height:100vh; overflow:hidden; border-bottom:1px solid var(--line); }
-  /* Panel width is measured in px by the script, not 100vw: vw includes the
-     scrollbar, which would push each panel a little wider than the visible area
-     and clip the right edge of every text column. */
-  .hs-track { display:flex; height:100%; width:calc(5 * var(--pw, 100vw)); will-change:transform; }
-  .hp { width:var(--pw, 100vw); height:100%; display:grid; grid-template-columns:minmax(0,3fr) minmax(0,2fr); border-right:1px solid #000; }
-  .hp:last-child { border-right:0; }
-  .hp-vis { min-width:0; overflow-y:auto; overflow-x:hidden; background:var(--field); border-right:1px solid #000;
+  /* ---------- the panels ----------
+     Two columns per section: the pale evidence field beside the argument that
+     reads it. Stacked vertically and scrolled normally; the page never takes
+     the scroll away from the reader. Full bleed, one hard rule between halves,
+     as in the reference. */
+  .hscroll { display:block; }
+  .hs-sticky { display:block; }
+  .hs-track { display:block; }
+  .hp { display:grid; grid-template-columns:minmax(0,3fr) minmax(0,2fr);
+        border-bottom:1px solid var(--line); align-items:stretch; }
+  .hp-vis { min-width:0; background:var(--field); border-right:1px solid #000;
             display:flex; flex-direction:column; justify-content:center; }
-  /* Flex children do not shrink by default, and these grids were sized for a
-     full-width column, so without this they spill past both panel edges. */
-  .hp-vis > * { width:100%; min-width:0; flex:none; }
+  .hp-vis > * { width:100%; min-width:0; }
   .hp-vis > .field, .hp-vis > .shot { border-bottom:0; }
-  .hp-vis .cell { min-height:0; padding:22px clamp(16px,1.9vw,28px); }
-  .hp-vis .bignum { font-size:clamp(30px,2.9vw,42px); }
-  .hp-vis .shot { padding:22px clamp(96px,10vw,140px) 6px; }
-  /* A phone capture is tall and narrow: cap it so it does not tower over the
-     panel, and keep its callout gutter on the right only. */
-  .hp-vis .shot-m { padding:18px clamp(150px,20vw,300px) 6px; }
-  .shot-m img { max-height:46vh; width:auto; margin:0 auto; }
-  .hp-vis .fnrow { grid-template-columns:minmax(0,116px) minmax(0,1fr) 64px; gap:10px; }
-  .hp-vis .brow { grid-template-columns:minmax(0,96px) minmax(0,1fr) 46px; gap:9px; }
-  .hp-vis .led-i { grid-template-columns:78px minmax(0,1fr); gap:14px; }
-  /* Generous side padding: the track lands a few pixels off a panel boundary
-     mid-scroll, and a tight text column would clip its last glyph there. */
-  .hp-txt { min-width:0; overflow-y:auto; display:flex; flex-direction:column; justify-content:center;
-            padding:0 clamp(34px,4.6vw,76px); }
+  .hp-vis .shot { padding:26px clamp(80px,9vw,150px) 8px; }
+  .hp-vis .shot-m { padding:22px clamp(120px,17vw,290px) 8px; }
+  .shot-m img { max-height:620px; width:auto; margin:0 auto; }
+  .hp-txt { min-width:0; display:flex; flex-direction:column; justify-content:center;
+            padding:clamp(38px,4vw,64px) clamp(30px,3.6vw,60px); }
   .hp-n { display:block; margin-bottom:18px; }
   .hp-txt .rowtext { position:static; }
-  .hp-txt .rowtext h2 { font-size:clamp(21px,2vw,29px); margin-bottom:18px; }
-  .hp-txt .rowtext p { font-size:clamp(13.5px,1.02vw,15.5px); }
-  .hs-prog { position:absolute; left:0; right:0; bottom:0; height:2px; background:rgba(255,255,255,0.10); }
-  .hs-prog span { display:block; height:100%; width:0; background:var(--ink); }
+  .hp-txt .rowtext h2 { font-size:clamp(21px,1.9vw,28px); margin-bottom:18px; }
+  .hs-prog { display:none; }
 
-  /* Narrow or reduced-motion: no sticky track, panels stack, page reads down. */
-  @media (max-width:900px), (prefers-reduced-motion:reduce) {
-    .hscroll { height:auto; }
-    .hs-sticky { position:static; height:auto; overflow:visible; }
-    .hs-track { display:block; width:auto; transform:none !important; }
-    .hp { width:auto; height:auto; grid-template-columns:minmax(0,1fr); border-right:0; border-bottom:1px solid var(--line); }
-    .hp-vis { overflow:visible; border-right:0; }
-    .hp-txt { overflow:visible; padding:26px clamp(18px,4vw,34px) 40px; }
-    .hs-prog { display:none; }
+  @media (max-width:900px) {
+    .hp { grid-template-columns:minmax(0,1fr); }
+    .hp-vis { border-right:0; border-bottom:1px solid var(--field-line); }
+    .hp-txt { padding:26px clamp(18px,4vw,34px) 40px; }
   }
 
   /* ---------- removals ---------- */
@@ -438,7 +422,6 @@
           </div>
         </article>
         </div>
-        <div class="hs-prog" aria-hidden><span id="hsbar"></span></div>
       </div>
     </section>
 
@@ -490,37 +473,6 @@
   </footer>
 
 <script>
-  // Vertical scroll drives the deck sideways. Bails out entirely when the track
-  // is stacked (narrow viewport or reduced motion), so the CSS fallback is the
-  // only thing positioning panels there.
-  (function () {
-    var sec = document.getElementById('hs'), track = document.getElementById('hstrack'), bar = document.getElementById('hsbar');
-    if (!sec || !track) return;
-    var stacked = function () {
-      return window.matchMedia('(max-width:900px)').matches ||
-             window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-    };
-    var ticking = false;
-    function frame() {
-      ticking = false;
-      if (stacked()) { track.style.transform = ''; return; }
-      var pw = sec.firstElementChild.clientWidth;
-      sec.style.setProperty('--pw', pw + 'px');
-      var travel = sec.offsetHeight - window.innerHeight;
-      if (travel <= 0) return;
-      var p = (window.scrollY - sec.offsetTop) / travel;
-      p = p < 0 ? 0 : p > 1 ? 1 : p;
-      // Whole pixels only. Sub-pixel offsets leave a panel a fraction off its
-      // border and clip the last glyph of every line in the text column.
-      track.style.transform = 'translate3d(-' + Math.round(p * 4 * pw) + 'px,0,0)';
-      if (bar) bar.style.width = (p * 100) + '%';
-    }
-    function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll);
-    frame();
-  })();
-
   // The shipped interaction, reproduced: idle -> armed -> sending -> done.
   // The label never claims success before the server has confirmed it.
   (function () {
