@@ -145,6 +145,10 @@
   .hp-vis .cell { min-height:0; padding:22px clamp(16px,1.9vw,28px); }
   .hp-vis .bignum { font-size:clamp(30px,2.9vw,42px); }
   .hp-vis .shot { padding:22px clamp(96px,10vw,140px) 6px; }
+  /* A phone capture is tall and narrow: cap it so it does not tower over the
+     panel, and keep its callout gutter on the right only. */
+  .hp-vis .shot-m { padding:18px clamp(150px,20vw,300px) 6px; }
+  .shot-m img { max-height:46vh; width:auto; margin:0 auto; }
   .hp-vis .fnrow { grid-template-columns:minmax(0,116px) minmax(0,1fr) 64px; gap:10px; }
   .hp-vis .brow { grid-template-columns:minmax(0,96px) minmax(0,1fr) 46px; gap:9px; }
   .hp-vis .led-i { grid-template-columns:78px minmax(0,1fr); gap:14px; }
@@ -412,7 +416,17 @@
         <div class="cell"><span class="cell-k">Fields in the card contract</span><span class="bignum">27</span></div>
         <div class="cell"><span class="cell-k">Token references in code</span><span class="bignum">4,289</span></div>
         <div class="cell"><span class="cell-k">Purpose-built detail shapes</span><span class="bignum">8</span></div>
-      </div></div>
+      </div>
+      <div class="shot shot-m">
+        <div class="shot-fig">
+          <img src="shot-mobile.png" alt="The same queue rendered on the mobile surface, with the same verbs and the same order." width="420" height="860" loading="lazy">
+          <div class="anno" style="top:13%; left:99%">
+            <span class="anno-d"></span><span class="anno-l"></span>
+            <span class="anno-t">Same lanes, same order, same verbs. Rendered from the one projection, not rebuilt.</span>
+          </div>
+        </div>
+      </div>
+      <div class="shot-cap"><b>One contract, another surface.</b> Mobile is not a second implementation of the queue. It reads the same projection the desktop desk does, so the two cannot drift: change the projection and both move together.</div></div>
           <div class="hp-txt">
             <span class="mono hp-n">05 &mdash; The system &nbsp;&middot;&nbsp; 5 / 5</span>
             <div class="rowtext">
