@@ -100,6 +100,29 @@
   .approve[data-s="armed"] { background:var(--field-ink); color:var(--field); }
   .approve[data-s="sending"], .approve[data-s="done"] { border-color:var(--field-line); color:var(--field-muted); cursor:default; }
 
+  /* ---------- annotated screenshots ----------
+     A real capture with callouts pinned to the UI they describe. Positions are
+     percentages so a label stays on its element as the figure scales. */
+  /* Gutters either side so a callout label has somewhere to sit that is not on
+     top of the interface it is pointing at. */
+  .shot { position:relative; grid-column:1/-1; background:var(--field-2); border-bottom:1px solid var(--field-line); padding:30px 152px 6px; }
+  .shot-fig { position:relative; }
+  .shot img { width:100%; height:auto; display:block; }
+  .shot-cap { padding:16px 30px 22px; font-size:12.5px; color:var(--field-muted); }
+  .shot-cap b { color:var(--field-ink); font-weight:600; }
+  .anno { position:absolute; display:flex; align-items:center; gap:0; pointer-events:none; width:max-content; }
+  .anno-d { width:7px; height:7px; border-radius:50%; background:var(--accent-anno,#E5405E); flex:none; }
+  .anno-l { width:26px; height:1px; background:var(--accent-anno,#E5405E); flex:none; }
+  .anno-t { flex:none; width:138px; font-family:var(--mono); font-size:9.5px; line-height:1.45; letter-spacing:0.02em;
+            background:var(--field); color:var(--field-ink); border:1px solid var(--field-ink);
+            padding:7px 9px; }
+  .anno.left { flex-direction:row-reverse; }
+  .anno.left .anno-t { text-align:right; }
+  @media (max-width:900px) {
+    .anno-l { width:20px; }
+    .anno-t { font-size:8.5px; width:124px; padding:4px 6px; }
+  }
+
   /* ---------- removals ---------- */
   .led { display:flex; flex-direction:column; gap:16px; }
   .led-i { display:grid; grid-template-columns:96px minmax(0,1fr); gap:18px; }
@@ -173,9 +196,47 @@
       </div>
     </section>
 
-    <!-- ============ 01 the wall ============ -->
+    <!-- ============ 01 the research ============ -->
     <section class="row">
-      <div class="rowlabel"><span class="mono">01 &mdash; The wall</span></div>
+      <div class="rowlabel"><span class="mono">01 &mdash; The research</span></div>
+      <div class="rowtext">
+        <h2>I sold it, used it, and asked about it, because no single signal tells the truth.</h2>
+        <p>Before any of those numbers existed the question was narrower: is this a real pain for a specific person, and can that person actually adopt it? I took it to the exact profile I believed it was for rather than to whoever would take a call, and ran <strong>more than 100 conversations</strong> across moderated user testing, sales calls and customer interviews.</p>
+        <p>A segment had to pass both tests. Plenty of owners agreed the idea sounded useful. Far fewer were already doing the work badly at 10pm with a workaround they were embarrassed by. And a segment can have the pain and still be unable to adopt, with nothing connected and no moment in the day the product fits. Those were the expensive ones to learn, because the enthusiasm in the call was real and it went nowhere.</p>
+        <p>I found the prospects and drafted the outreach <strong>using the product itself</strong>, so every sales call was also a user test. Interviews tell you whether someone likes an idea; they are much worse at telling you whether the value repeats. Working in it against a real deadline was the only thing that surfaced the second and third week failures, the mornings where the queue stopped being worth opening.</p>
+        <div class="credits">
+          Method: <b>User testing, sales calls, customer interviews, dogfooding, product analytics</b><br>
+          Scale: <b>100+ conversations</b><br>
+          Tests a segment had to pass: <b>Real pain &middot; Able to adopt</b>
+        </div>
+      </div>
+      <div class="field grid2">
+        <div class="cell">
+          <span class="cell-k">Interviews</span>
+          <p class="bigsub" style="margin:0">Tell you what someone says they want. Blind to what they will actually open on an ordinary Tuesday.</p>
+        </div>
+        <div class="cell">
+          <span class="cell-k">Product analytics</span>
+          <p class="bigsub" style="margin:0">Tell you exactly what they did. Blind to why they did it, and silent on everyone who never arrived.</p>
+        </div>
+        <div class="cell">
+          <span class="cell-k">Dogfooding</span>
+          <p class="bigsub" style="margin:0">Shows where it breaks under a real deadline, and whether the value repeats. Blind to everyone who is not me.</p>
+        </div>
+        <div class="cell invert">
+          <span class="cell-k">Sales</span>
+          <p class="bigsub" style="margin:0">Tells you what someone will hand money over for, which is a different question again from what they enjoy.</p>
+        </div>
+        <div class="cell full" style="min-height:0">
+          <span class="cell-k">Where they disagreed</span>
+          <p class="bigsub" style="margin:0">Running all four continuously, rather than treating research as a phase that ended before building started, meant the four could be read against each other. Where they agreed I built with confidence. Where they disagreed was worth more: the features people asked for warmly in an interview and then never touched in the product became the clearest signal in the project, and the one the rest of this case study follows. Selling taught the other half. Repeating a pitch to someone with no reason to be generous is the fastest way to find which words carry, so the messaging was not written so much as cut down, by people declining to buy, until only the parts that landed were left.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 02 the wall ============ -->
+    <section class="row">
+      <div class="rowlabel"><span class="mono">02 &mdash; The wall</span></div>
       <div class="rowtext">
         <h2>The wall was not traffic. It was the first decision.</h2>
         <p>I instrumented the funnel end to end before trusting any of it. Acquisition was fine: <strong>17% of visitors reached sign-up</strong>. The collapse happened after the product was in their hands.</p>
@@ -215,7 +276,7 @@
 
     <!-- ============ 02 rewrite ============ -->
     <section class="row">
-      <div class="rowlabel"><span class="mono">02 &mdash; The pattern</span></div>
+      <div class="rowlabel"><span class="mono">03 &mdash; The pattern</span></div>
       <div class="rowtext">
         <h2>Approval is not a choice. It is a rewrite.</h2>
         <p>Every agent product ships the same control: accept or reject. When I looked at what people actually did with an approval, <strong>61% of approved drafts had been edited first</strong>.</p>
@@ -243,7 +304,7 @@
 
     <!-- ============ 03 the control ============ -->
     <section class="row">
-      <div class="rowlabel"><span class="mono">03 &mdash; The control</span></div>
+      <div class="rowlabel"><span class="mono">04 &mdash; The control</span></div>
       <div class="rowtext">
         <h2>Say what it will do. Then make them mean it.</h2>
         <p>Two things must be true before someone lets software act for them: they must know exactly what happens, and they must not be able to do it by accident.</p>
@@ -269,16 +330,32 @@
           <span class="cell-k">On the third citation</span>
           <p class="bigsub" style="margin:0">When the system cannot build a real link to the record, it shows the evidence without one. It never invents a source to make the row look complete. The link is optional at the type level, which is where that guarantee belongs.</p>
         </div>
-        <div class="slot">
-          <span class="slot-t">Cover &mdash; the queue in context</span>
-          <span class="slot-d">Jitter loop: lanes of proposals, one high-risk card arming and confirming.</span>
+        <div class="shot">
+          <div class="shot-fig">
+            <img src="shot-queue.png" alt="The Synchronise desk: a lane of drafted proposals beside the owner's revenue and the people who replied." width="1117" height="760" loading="lazy">
+            <div class="anno left" style="top:10.6%; right:97.5%">
+              <span class="anno-d"></span><span class="anno-l"></span>
+              <span class="anno-t">Every proposal leads with what it will do, in the owner&rsquo;s language, before any control.</span>
+            </div>
+            <div class="anno" style="top:57.5%; left:98.5%">
+              <span class="anno-d"></span><span class="anno-l"></span>
+              <span class="anno-t">Replies from real people sit beside the drafts. The queue has to earn attention against them.</span>
+            </div>
+            <div class="anno" style="top:12.5%; left:98.5%">
+              <span class="anno-d"></span><span class="anno-l"></span>
+              <span class="anno-t">The owner&rsquo;s money, not the product&rsquo;s activity. The scoreboard that measured us got deleted.</span>
+            </div>
+          </div>
+        </div>
+        <div class="shot-cap" style="grid-column:1/-1">
+          <b>The desk, running.</b> Captured from the product against a seeded demo business, so the interface is real and the customers are not. Proposals sit to the left with what they will do; the owner&rsquo;s own numbers and the people who actually wrote back sit to the right, because the queue has to earn attention against them.
         </div>
       </div>
     </section>
 
     <!-- ============ 04 the system ============ -->
     <section class="row">
-      <div class="rowlabel"><span class="mono">04 &mdash; The system</span></div>
+      <div class="rowlabel"><span class="mono">05 &mdash; The system</span></div>
       <div class="rowtext">
         <h2>Consistency enforced by the compiler, not by a library.</h2>
         <p>Thirty-seven kinds of proposal, five surfaces, one designer. A component library would not have held, because surfaces drift when the rule lives in a document nobody reads.</p>
@@ -297,7 +374,7 @@
 
     <!-- ============ 05 removals ============ -->
     <section class="row">
-      <div class="rowlabel"><span class="mono">05 &mdash; Removed</span></div>
+      <div class="rowlabel"><span class="mono">06 &mdash; Removed</span></div>
       <div class="rowtext">
         <h2>Three things I shipped, measured, and deleted.</h2>
         <p>The queue's real failure mode is volume, not accuracy. Twenty-seven of the producers I built earned <strong>zero approvals across 158 proposals</strong>. Supply was never the constraint.</p>
@@ -326,7 +403,7 @@
 
     <!-- ============ closing ============ -->
     <section class="close">
-      <div><span class="mono">06 &mdash; On the numbers</span></div>
+      <div><span class="mono">07 &mdash; On the numbers</span></div>
       <div class="close-b">
         <p><strong>This is six weeks of data from 18 accounts.</strong> It is early, and I would rather say so than present it as more.</p>
         <p>What holds at this sample size are shapes, not rates: proposals die in silence rather than rejection, approval is usually a rewrite, and most of the supply I built earned nothing. Those findings are consistent across every workspace and survived being checked against the raw ledger rather than a dashboard.</p>

@@ -4,10 +4,10 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Gautham Srinivas — Product Designer</title>
-<meta name="description" content="Gautham Srinivas, product designer. I design AI products end to end, from research and design systems to shipped interfaces. Currently building Synchronise AI." />
+<meta name="description" content="Gautham Srinivas, product designer in Sydney. I design AI products that suggest and leave the deciding to the person, doing the research, the design system and the production code myself. Currently building Synchronise AI." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&family=Caveat:wght@500;600&display=swap" rel="stylesheet" />
 <link rel="preconnect" href="https://api.fontshare.com" />
 <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600,700&display=swap" />
 <style>
@@ -119,6 +119,29 @@
   @media (hover:none) { .proj .cap { opacity:1; transform:none; } .proj .lot, .proj img, .proj video { filter:none; } }
   @media (prefers-reduced-motion:reduce) { .proj .cap { opacity:1; transform:none; } .proj img, .proj video { transition:none; } }
   @media (max-width:640px){ .col-right { grid-template-columns:1fr; } }
+  /* ---------- the note ----------
+     A handwritten card on landing. Torn-paper warmth against the dark ground,
+     tilted slightly so it reads as something left on a desk rather than a modal.
+     Dismissal is remembered, so it never greets the same person twice. */
+  .note-wrap { position:fixed; inset:0; z-index:80; display:grid; place-items:center;
+               background:rgba(6,6,5,0.62); opacity:0; pointer-events:none; transition:opacity .5s ease; }
+  .note-wrap.on { opacity:1; pointer-events:auto; }
+  .note { position:relative; width:min(90vw,392px); background:#F7F3E8; color:#17160F;
+          padding:34px 34px 28px; border-radius:2px; transform:rotate(-1.4deg) translateY(10px);
+          box-shadow:0 30px 70px rgba(0,0,0,.55), 0 2px 0 rgba(0,0,0,.15);
+          transition:transform .5s cubic-bezier(.2,.8,.2,1); }
+  .note-wrap.on .note { transform:rotate(-1.4deg) translateY(0); }
+  .note p { font-family:"Caveat",cursive; font-size:25px; line-height:1.36; margin:0 0 15px; letter-spacing:0.005em; }
+  .note p:last-of-type { margin-bottom:0; }
+  .note .sign { display:block; margin-top:20px; font-family:"Caveat",cursive; font-size:26px; }
+  .note .x { position:absolute; top:9px; right:12px; font-family:var(--mono); font-size:15px;
+             color:#8B8677; background:none; border:0; cursor:pointer; line-height:1; padding:6px; }
+  .note .x:hover { color:#17160F; }
+  .note .x:focus-visible { outline:2px solid #17160F; outline-offset:2px; }
+  @media (prefers-reduced-motion:reduce) {
+    .note-wrap, .note { transition:none; }
+    .note, .note-wrap.on .note { transform:rotate(-1.4deg); }
+  }
 </style>
 </head>
 <body>
@@ -131,7 +154,7 @@
         <div><div class="nm">Gautham Srinivas</div><div class="role">Product Designer</div></div>
       </div>
 
-      <p class="tagline">I design AI products <span class="dim">&mdash; from research and design systems to shipped, production interfaces &mdash;</span> focused on trust, clarity, and brand.</p>
+      <p class="tagline">I design AI products that suggest, and leave the deciding to the person. <span class="dim">The research, the design system and the production code are one job, and I do all three.</span></p>
       <div class="avail"><span class="d"></span>Available for work.</div><br>
       <a class="getbtn" href="mailto:gautham@synchronise.ai">Get in touch</a>
       <div class="logos" aria-label="Education and affiliations">
@@ -147,12 +170,26 @@
         <span><b>1st</b> &middot; KPMG &times; UNSW</span>
         <span><b>Top 50</b> &middot; Red Bull</span>
         <span><b>Speaker</b> &middot; UNSW</span>
+        <span><b>Top 0.5%</b> &middot; ChatGPT 2025</span>
       </div>
 
       <hr class="rule" />
       <section class="about">
         <h2 class="sec">About me.</h2>
-        <p>I'm Gautham Srinivas, a product designer in Sydney. Six years designing, across a clothing brand turned agency, enterprise SaaS, and my own AI products, shipping end to end from research to production code.</p>
+        <p>I'm Gautham Srinivas, a product designer in Sydney. Six years designing, across a clothing brand turned agency, enterprise SaaS, and my own AI products.</p>
+        <p>Most places put the creative people on one side and the technical people on the other. I have never worked that way. I came up through design computing, hold an AI imaging credit at Ethics &amp; Aesthetics of AI in Venice, and wrote the type system that stops my own agents from acting without a human saying yes. The same hands did the brand, the interface and the deploy.</p>
+        <p>Two things I hold to. Software should make the person using it feel larger, not smaller, so nothing I build acts on someone's behalf without their say-so. And a claim should be traceable to a source, so my products cite what they read and say nothing when they cannot check it. I have cut my own features and pulled my own copy for failing that second test.</p>
+      </section>
+
+      <hr class="rule" />
+      <section class="about">
+        <h2 class="sec">On brand.</h2>
+        <p>Brand is not decoration applied at the end. It is the soul of a company and the way the world sees it, and it is the first thing a person meets, long before the product, the price or the pitch. Perception is set there, and everything after that is either compounding it or fighting it.</p>
+        <p>Which is why I am unreasonable about the details. The pillars are the same ones they have always been: purpose and positioning, voice and tone, visual identity in type, colour and mark, messaging, and the consistency that holds them together across every surface. A brand fails at the seams, in the one screen nobody proofread, in the email that went out in the wrong voice.</p>
+        <p>Designing this for AI is a context problem, not a style problem. A model cannot be told to remember a guideline. It can only be handed the right context at the moment it generates.</p>
+        <p>So the real object is not a document. It is the context every agent in the company reaches for before anything reaches a customer: one authoritative account of the brand, its voice, its palette, its positioning, its history, retrieved at the moment of generation and cited in what comes out. The campaign, the support reply, the product screen and the sales email all resolve to that same source, or the brand quietly drifts further apart with every generation. Get it right and on-brand is the default rather than something a person catches later. Get it wrong and you have built a very fast way to go off-brand at scale.</p>
+        <p>And the format is the least of it. Markdown, YAML and knowledge graphs are the tip of the iceberg. The engineering is in what gets retrieved and what is deliberately withheld, how far it is compacted before it is handed over, the order it arrives in, what can be cached against what has to be fresh, and how you prove the context changed the output rather than assuming it did. That is most of what I actually do.</p>
+        <p>This is the part I think is underrated. When every company runs on agents and anyone can ship software in an afternoon, the software stops being the differentiator. What is left is the thing that cannot be one-shot: a company's taste, its point of view, the accumulated judgment about how it speaks and what it will not do. That context is the operating system for a business, and the last durable moat. It is what keeps a company recognisably itself, and recognisably human, in a sea of competent, directionless output that all looks the same.</p>
         <div class="stats">
           <div class="s"><b>6+</b><span>Years designing</span></div>
           <div class="s"><b>100+</b><span>User interviews &amp; cold calls</span></div>
@@ -263,6 +300,40 @@
     </div>
 
   </div>
+  <div class="note-wrap" id="note" role="dialog" aria-modal="true" aria-label="A note for brand.ai" hidden>
+    <div class="note">
+      <button class="x" id="noteX" aria-label="Close">&#10005;</button>
+      <p>Hi brand.ai,</p>
+      <p>Your first principle is that the machine suggests and the person decides.</p>
+      <p>I built exactly that, on my own. No agent in my product has a send button.</p>
+      <span class="sign">Gautham</span>
+    </div>
+  </div>
+
+  <script>
+    // Shown once per visitor. To target only the link you send them, change the
+    // OPEN condition to: /[?&]for=brand-ai/.test(location.search)
+    (function () {
+      var w = document.getElementById('note'), x = document.getElementById('noteX');
+      if (!w || !x) return;
+      var KEY = 'note-brandai-dismissed';
+      try { if (localStorage.getItem(KEY)) return; } catch (e) {}
+
+      w.hidden = false;
+      var t = setTimeout(function () { w.classList.add('on'); x.focus(); }, 700);
+
+      function close() {
+        clearTimeout(t);
+        w.classList.remove('on');
+        try { localStorage.setItem(KEY, '1'); } catch (e) {}
+        setTimeout(function () { w.hidden = true; }, 500);
+      }
+      x.addEventListener('click', close);
+      w.addEventListener('click', function (e) { if (e.target === w) close(); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !w.hidden) close(); });
+    })();
+  </script>
+
   <script src="lottie.min.js"></script>
   <script>
     (function(){ if(!window.lottie) return;
